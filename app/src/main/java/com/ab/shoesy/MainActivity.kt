@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.ab.shoesy.ui.screen.splash.SplashScreen
+import com.ab.shoesy.ui.screen.login.LoginScreen
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
     class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
         enableEdgeToEdge()
         setContent {
             ShoesyTheme {
-                SplashScreen()
+                LoginScreen()
             }
         }
     }

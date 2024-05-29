@@ -1,8 +1,10 @@
 package com.ab.shoesy.ui.screen.splash
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +27,7 @@ fun SplashScreen() {
         ) {
             Text(
                 text = stringResource(id = R.string.app_name),
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold)
             )
         }
     }
@@ -34,7 +35,15 @@ fun SplashScreen() {
 
 @Preview
 @Composable
-private fun SplashScreenPreview() {
+private fun SplashScreenLightPreview() {
+    ShoesyTheme {
+        SplashScreen()
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun SplashScreenDarkPreview() {
     ShoesyTheme {
         SplashScreen()
     }
