@@ -1,4 +1,4 @@
-package com.ab.shoesy.ui.screen.login
+package com.ab.shoesy.ui.screen.create_account
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,7 @@ import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @Composable
-fun LoginScreen() {
+fun CreateAccountScreen() {
     var showPassword by remember {
         mutableStateOf(false)
     }
@@ -55,14 +55,21 @@ fun LoginScreen() {
                 .padding(top = 32.dp)
         ) {
             Text(
-                text = stringResource(R.string.sign_in),
+                text = stringResource(R.string.create_account),
                 style = MaterialTheme.typography.displaySmall
             )
             Text(
-                text = stringResource(R.string.please_sign_in_to_your_shoesy_account),
+                text = stringResource(R.string.please_sign_up_to_your_shoesy_account),
                 style = MaterialTheme.typography.bodyMedium
             )
             VerticalSpacer(space = 60)
+            RoundedOutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = email,
+                onChange = { value -> email = value},
+                placeholderText = stringResource(R.string.full_name),
+            )
+            VerticalSpacer(space = 16)
             RoundedOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = email,
@@ -79,6 +86,15 @@ fun LoginScreen() {
                 passwordVisible = showPassword,
                 onChangePasswordVisibility = { show -> showPassword = show }
             )
+            VerticalSpacer(space = 16)
+            PasswordRoundedOutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = password,
+                onChange = { value -> password = value},
+                placeholderText = stringResource(R.string.confirm_password),
+                passwordVisible = showPassword,
+                onChangePasswordVisibility = { show -> showPassword = show }
+            )
             VerticalSpacer(weight = 1f)
             Button(
                 modifier = Modifier
@@ -86,7 +102,7 @@ fun LoginScreen() {
                     .height(50.dp),
                 onClick = {}
             ) {
-                Text(text = stringResource(R.string.sign_in).uppercase())
+                Text(text = stringResource(R.string.create_account).uppercase())
             }
             VerticalSpacer(space = 16)
             Row(
@@ -110,7 +126,7 @@ fun LoginScreen() {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = stringResource(R.string.join_with_us),
+                    text = stringResource(R.string.have_account),
                     style = MaterialTheme.typography.bodySmall
                 )
                 TextButton(
@@ -118,7 +134,7 @@ fun LoginScreen() {
                         .height(50.dp),
                     onClick = {}
                 ) {
-                    Text(text = stringResource(R.string.create_account))
+                    Text(text = stringResource(R.string.sign_in))
                 }
             }
         }
@@ -128,16 +144,16 @@ fun LoginScreen() {
 
 @Preview
 @Composable
-private fun LoginScreenLightPreview() {
+private fun CreateAccountScreenLightPreview() {
     ShoesyTheme {
-        LoginScreen()
+        CreateAccountScreen()
     }
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun LoginScreenDarkPreview() {
+private fun CreateAccountScreenDarkPreview() {
     ShoesyTheme {
-        LoginScreen()
+        CreateAccountScreen()
     }
 }
