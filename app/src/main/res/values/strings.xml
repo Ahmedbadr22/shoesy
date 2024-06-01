@@ -14,4 +14,11 @@
     <string name="please_sign_up_to_your_shoesy_account">Please sign up to your shoesy account.</string>
     <string name="join_with_us">Join with us:</string>
     <string name="please_sign_in_to_your_shoesy_account">Please sign in to your shoesy account.</string>
+    <string name="what_are_you_looking_for">What are you looking for?</string>
+    <string name="camera_icon">Camera icon</string>
+    <string name="search_icon">Search icon</string>
+    <string name="see_all">SEE ALL</string>
+    <string name="brands">Brands</string>
+    <string name="special_for_you">Special For You</string>
+    <string name="star">Star</string>
 </resources>

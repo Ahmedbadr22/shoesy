@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.ab.shoesy.ui.screen.login.LoginScreen
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.ab.shoesy.ui.navigation.AppNavHost
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
     class MainActivity : ComponentActivity() {
@@ -12,8 +15,13 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navHostController = rememberNavController()
+
             ShoesyTheme {
-                LoginScreen()
+                AppNavHost(
+                    modifier = Modifier.fillMaxSize(),
+                    navHostController = navHostController
+                )
             }
         }
     }

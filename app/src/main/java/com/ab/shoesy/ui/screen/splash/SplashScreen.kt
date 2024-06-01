@@ -8,18 +8,28 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import com.ab.core.constants.App.SPLASH_DELAY_TIME
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.theme.ShoesyTheme
+import kotlinx.coroutines.delay
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    onDelayFinish: () -> Unit
+) {
+
+    LaunchedEffect(Unit) {
+        delay(SPLASH_DELAY_TIME)
+        onDelayFinish()
+    }
+
     Scaffold {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -37,7 +47,7 @@ fun SplashScreen() {
 @Composable
 private fun SplashScreenLightPreview() {
     ShoesyTheme {
-        SplashScreen()
+        SplashScreen(onDelayFinish = {})
     }
 }
 
@@ -45,6 +55,6 @@ private fun SplashScreenLightPreview() {
 @Composable
 private fun SplashScreenDarkPreview() {
     ShoesyTheme {
-        SplashScreen()
+        SplashScreen(onDelayFinish = {})
     }
 }

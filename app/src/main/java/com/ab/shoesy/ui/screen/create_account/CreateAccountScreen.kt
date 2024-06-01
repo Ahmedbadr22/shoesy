@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.FacebookOutlinedButton
 import com.ab.shoesy.ui.composable.GoogleOutlinedButton
@@ -33,7 +34,9 @@ import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @Composable
-fun CreateAccountScreen() {
+fun CreateAccountScreen(
+    popBackToLogin: () -> Unit
+) {
     var showPassword by remember {
         mutableStateOf(false)
     }
@@ -132,7 +135,7 @@ fun CreateAccountScreen() {
                 TextButton(
                     modifier = Modifier
                         .height(50.dp),
-                    onClick = {}
+                    onClick = dropUnlessResumed(block = popBackToLogin)
                 ) {
                     Text(text = stringResource(R.string.sign_in))
                 }
@@ -146,7 +149,7 @@ fun CreateAccountScreen() {
 @Composable
 private fun CreateAccountScreenLightPreview() {
     ShoesyTheme {
-        CreateAccountScreen()
+        CreateAccountScreen(popBackToLogin = {})
     }
 }
 
@@ -154,6 +157,6 @@ private fun CreateAccountScreenLightPreview() {
 @Composable
 private fun CreateAccountScreenDarkPreview() {
     ShoesyTheme {
-        CreateAccountScreen()
+        CreateAccountScreen(popBackToLogin = {})
     }
 }

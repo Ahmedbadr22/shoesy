@@ -33,7 +33,9 @@ import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onNavigateToCreateAccount: () -> Unit
+) {
     var showPassword by remember {
         mutableStateOf(false)
     }
@@ -116,7 +118,7 @@ fun LoginScreen() {
                 TextButton(
                     modifier = Modifier
                         .height(50.dp),
-                    onClick = {}
+                    onClick = onNavigateToCreateAccount
                 ) {
                     Text(text = stringResource(R.string.create_account))
                 }
@@ -130,7 +132,7 @@ fun LoginScreen() {
 @Composable
 private fun LoginScreenLightPreview() {
     ShoesyTheme {
-        LoginScreen()
+        LoginScreen(onNavigateToCreateAccount = {})
     }
 }
 
@@ -138,6 +140,6 @@ private fun LoginScreenLightPreview() {
 @Composable
 private fun LoginScreenDarkPreview() {
     ShoesyTheme {
-        LoginScreen()
+        LoginScreen(onNavigateToCreateAccount = {})
     }
 }
