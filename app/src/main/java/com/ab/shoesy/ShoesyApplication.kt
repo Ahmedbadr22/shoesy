@@ -2,6 +2,10 @@ package com.ab.shoesy
 
 import android.app.Application
 import com.ab.shoesy.di.appModule
+import com.ab.shoesy.di.repositoryModule
+import com.ab.shoesy.di.serviceModule
+import com.ab.shoesy.di.useCaseModule
+import com.ab.shoesy.di.viewModelModule
 import org.koin.core.context.startKoin
 
 class ShoesyApplication : Application() {
@@ -12,7 +16,11 @@ class ShoesyApplication : Application() {
         startKoin {
             modules(
                 listOf(
-                    appModule
+                    appModule,
+                    serviceModule,
+                    repositoryModule,
+                    useCaseModule,
+                    viewModelModule
                 )
             )
         }

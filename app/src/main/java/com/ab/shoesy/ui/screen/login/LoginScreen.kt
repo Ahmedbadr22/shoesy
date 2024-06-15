@@ -14,10 +14,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,20 +30,10 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @Composable
 fun LoginScreen(
+    uiState: LoginContract.State,
+    onEvent: (LoginContract.Event) -> Unit,
     onNavigateToCreateAccount: () -> Unit
 ) {
-    var showPassword by remember {
-        mutableStateOf(false)
-    }
-
-    var email by remember {
-        mutableStateOf("")
-    }
-
-    var password by remember {
-        mutableStateOf("")
-    }
-
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -67,26 +53,28 @@ fun LoginScreen(
             VerticalSpacer(space = 60)
             RoundedOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = email,
-                onChange = { value -> email = value},
+                value = uiState.email,
+                onChange = { value -> onEvent(LoginContract.Event.OnEmailChange(value)) },
                 placeholderText = stringResource(R.string.email),
                 keyboardType = KeyboardType.Email
             )
             VerticalSpacer(space = 16)
             PasswordRoundedOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = password,
-                onChange = { value -> password = value},
+                value = uiState.password,
+                onChange = { value -> onEvent(LoginContract.Event.OnPasswordChange(value)) },
                 placeholderText = stringResource(R.string.password),
-                passwordVisible = showPassword,
-                onChangePasswordVisibility = { show -> showPassword = show }
+                passwordVisible = uiState.showPassword,
+                onChangePasswordVisibility = { show -> onEvent(LoginContract.Event.OnShowPasswordStateChange(show)) }
             )
             VerticalSpacer(weight = 1f)
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                onClick = {}
+                onClick = {
+                    onEvent(LoginContract.Event.OnLogin)
+                }
             ) {
                 Text(text = stringResource(R.string.sign_in).uppercase())
             }
@@ -132,7 +120,11 @@ fun LoginScreen(
 @Composable
 private fun LoginScreenLightPreview() {
     ShoesyTheme {
-        LoginScreen(onNavigateToCreateAccount = {})
+        LoginScreen(
+            uiState = LoginContract.State(),
+            onEvent = {},
+            onNavigateToCreateAccount = {}
+        )
     }
 }
 
@@ -140,6 +132,10 @@ private fun LoginScreenLightPreview() {
 @Composable
 private fun LoginScreenDarkPreview() {
     ShoesyTheme {
-        LoginScreen(onNavigateToCreateAccount = {})
+        LoginScreen(
+            uiState = LoginContract.State(),
+            onEvent = {},
+            onNavigateToCreateAccount = {}
+        )
     }
 }

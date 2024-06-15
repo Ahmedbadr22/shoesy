@@ -23,3 +23,4 @@ rootProject.name = "Shoesy"
 include(":app")
 include(":core")
 include(":data")
+include(":domain")

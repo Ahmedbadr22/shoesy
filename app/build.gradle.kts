@@ -53,6 +53,8 @@ android {
 dependencies {
 
     implementation(project(":core"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -82,4 +84,11 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.navigation.compose)
+
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.gson)
+    implementation(libs.okhttp)
+    implementation (libs.logging.interceptor)
+
 }
