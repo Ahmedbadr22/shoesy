@@ -14,13 +14,15 @@ class LoginContract {
     }
 
     sealed class SideEffects: ViewSideEffect {
-
+        data class ShowErrorDialog(val resId: Int) : SideEffects()
     }
 
     data class State(
         override val loading: Boolean = false,
         val email: String = "",
+        val emailErrorResIdMessage: Int = 0,
         val password: String = "",
+        val passwordErrorResIdMessage: Int = 0,
         val showPassword: Boolean = false,
     ) : ViewState
 }

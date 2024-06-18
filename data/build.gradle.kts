@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
@@ -43,6 +44,7 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.coroutines.play.services)
 
     implementation (libs.retrofit)

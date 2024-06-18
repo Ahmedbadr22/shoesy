@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unknown_error_please_contact_it_support">Unknown error…please contact IT for support</string>
+    <string name="server_error_please_contact_it_for_support">Server error…please contact IT for support</string>
+    <string name="client_error_please_try_again_later">Client error…please try again later</string>
+    <string name="server_not_found_please_contact_it_for_support">Server not found…please contact IT for support</string>
+    <string name="user_not_found_please_try_again">User not found…please try again</string>
+    <string name="bad_request_try_again">Bad request…try again</string>
+    <string name="no_content_found_please_try_again_later">No content found…please try again later</string>
+</resources>

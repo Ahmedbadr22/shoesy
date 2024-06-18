@@ -1,5 +1,7 @@
 package com.ab.core.utils
 
+import androidx.annotation.StringRes
+
 
 sealed class Resource<out T>() {
     data class Success<T>(val data: T) : Resource<T>()
@@ -24,7 +26,10 @@ sealed class Resource<out T>() {
     }
 }
 
-
+sealed class ValidationResource() {
+    data object Valid : ValidationResource()
+    data class NotValid(@StringRes val stringResIdMessage: Int) : ValidationResource()
+}
 
 fun <T>Resource<T>.handle(
     onLoading : (Boolean) -> Unit,
@@ -41,5 +46,16 @@ fun <T>Resource<T>.handle(
             onLoading(false)
             onSuccess(data)
         }
+    }
+}
+
+
+fun ValidationResource.handle(
+    onValid : () -> Unit,
+    onNotValid : (Int) -> Unit,
+) {
+    when(this) {
+        is ValidationResource.Valid -> onValid()
+        is ValidationResource.NotValid -> onNotValid(stringResIdMessage)
     }
 }

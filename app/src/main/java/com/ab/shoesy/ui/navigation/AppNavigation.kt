@@ -9,6 +9,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
+import androidx.navigation.toRoute
+import com.ab.shoesy.ui.composable.ErrorDialog
 import com.ab.shoesy.ui.screen.create_account.CreateAccountScreen
 import com.ab.shoesy.ui.screen.login.LoginContract
 import com.ab.shoesy.ui.screen.login.LoginScreen
@@ -42,7 +45,9 @@ fun AppNavHost(
             LoginScreen(
                 uiState = uiState,
                 onEvent = loginViewModel::setEvent,
-                onNavigateToCreateAccount = navHostController::navigateToRegistration
+                sideEffects = loginViewModel.effect,
+                onNavigateToCreateAccount = navHostController::navigateToRegistration,
+                onShowErrorDialog = navHostController::navigateToErrorDialog
             )
         }
 
@@ -50,6 +55,15 @@ fun AppNavHost(
             CreateAccountScreen(
                 popBackToLogin = navHostController::popUpToLogin
             )
+        }
+
+        dialog<Screen.ErrorDialog> { backstackEntry ->
+            val dialog : Screen.ErrorDialog = backstackEntry.toRoute()
+            ErrorDialog(
+                message = dialog.message
+            ) {
+                navHostController.navigateUp()
+            }
         }
     }
 }
@@ -64,6 +78,10 @@ fun NavHostController.navigateToLogin() {
 
 fun NavHostController.navigateToRegistration() {
     navigate(Screen.REGISTRATION)
+}
+
+fun NavHostController.navigateToErrorDialog(resMessage: Int) {
+    navigate(Screen.ErrorDialog(resMessage))
 }
 
 fun NavHostController.popUpToLogin() {

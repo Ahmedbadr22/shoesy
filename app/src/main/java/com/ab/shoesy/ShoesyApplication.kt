@@ -2,6 +2,7 @@ package com.ab.shoesy
 
 import android.app.Application
 import com.ab.shoesy.di.appModule
+import com.ab.shoesy.di.dataSourceModule
 import com.ab.shoesy.di.repositoryModule
 import com.ab.shoesy.di.serviceModule
 import com.ab.shoesy.di.useCaseModule
@@ -18,6 +19,7 @@ class ShoesyApplication : Application() {
                 listOf(
                     appModule,
                     serviceModule,
+                    dataSourceModule,
                     repositoryModule,
                     useCaseModule,
                     viewModelModule

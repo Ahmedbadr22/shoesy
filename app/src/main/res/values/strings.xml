@@ -21,4 +21,6 @@
     <string name="brands">Brands</string>
     <string name="special_for_you">Special For You</string>
     <string name="star">Star</string>
+    <string name="i_icon">I Icon</string>
+    <string name="error">Error</string>
 </resources>

@@ -12,4 +12,8 @@ sealed class Screen {
 
     @Serializable
     data object REGISTRATION : Screen()
+
+
+    @Serializable
+    data class ErrorDialog(val message: Int) : Screen()
 }

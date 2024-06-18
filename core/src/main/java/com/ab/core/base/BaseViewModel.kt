@@ -17,7 +17,7 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState> : ViewModel
     private val _effect: Channel<ViewSideEffect> = Channel()
     val effect = _effect.receiveAsFlow()
 
-    lateinit var lastEvent: Event private set
+    private lateinit var lastEvent: Event
 
 
     private val _showErrorDialog = MutableStateFlow(false)
@@ -97,7 +97,5 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState> : ViewModel
         super.onCleared()
         // Cancel any ongoing operations or clear resources
     }
-
-
 
 }
