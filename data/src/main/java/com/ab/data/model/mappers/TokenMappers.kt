@@ -4,4 +4,4 @@ import com.ab.data.model.dto.TokenDto
 import com.ab.domain.model.data.Token
 
 
-fun TokenDto.toDomain() : Token = Token(token, refresh)
+fun TokenDto.toDomain() : Token = Token(access, refresh)

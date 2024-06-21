@@ -1,6 +1,7 @@
 package com.ab.shoesy.ui.screen.login
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ fun LoginScreen(
     onEvent: (LoginContract.Event) -> Unit,
     sideEffects: Flow<ViewSideEffect>,
     onNavigateToCreateAccount: () -> Unit,
+    onNavigateToMain: () -> Unit,
     onShowErrorDialog: (Int) -> Unit
 ) {
 
@@ -46,7 +48,7 @@ fun LoginScreen(
         sideEffects.collectLatest {
             when(it) {
                 is LoginContract.SideEffects.ShowErrorDialog -> onShowErrorDialog(it.resId)
-
+                is LoginContract.SideEffects.NavigateToMain -> onNavigateToMain()
             }
         }
     }
@@ -145,6 +147,7 @@ private fun LoginScreenLightPreview() {
             sideEffects = emptyFlow(),
             onNavigateToCreateAccount = {},
             onShowErrorDialog = {},
+            onNavigateToMain = {},
         )
     }
 }
@@ -159,6 +162,7 @@ private fun LoginScreenDarkPreview() {
             sideEffects = emptyFlow(),
             onNavigateToCreateAccount = {},
             onShowErrorDialog = {},
+            onNavigateToMain = {},
         )
     }
 }

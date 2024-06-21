@@ -15,6 +15,7 @@ class LoginContract {
 
     sealed class SideEffects: ViewSideEffect {
         data class ShowErrorDialog(val resId: Int) : SideEffects()
+        data object NavigateToMain : SideEffects()
     }
 
     data class State(

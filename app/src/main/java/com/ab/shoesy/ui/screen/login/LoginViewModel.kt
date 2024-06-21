@@ -1,6 +1,5 @@
 package com.ab.shoesy.ui.screen.login
 
-import android.util.Log
 import com.ab.core.base.BaseViewModel
 import com.ab.core.utils.NetworkRequestException
 import com.ab.core.utils.ValidationResource
@@ -62,9 +61,9 @@ class LoginViewModel(
                 loginUseCase(loginForm).collectLatest { resource ->
                     resource.handle(
                         onLoading = { isLoading -> setState { copy(loading = isLoading) }},
-                        onSuccess = { data -> Log.i("AHMED_BADR", "login: $data") },
+                        onSuccess = { _ -> launch { setEffect { LoginContract.SideEffects.NavigateToMain } } },
                         onError = { error ->
-                            viewModelScopeWithHandler.launch {
+                            launch {
                                 setEffect {
                                     LoginContract.SideEffects.ShowErrorDialog((error as NetworkRequestException).messageResId)
                                 }

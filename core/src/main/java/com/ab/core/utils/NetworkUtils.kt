@@ -38,43 +38,60 @@ object NetworkUtils {
     }
 
     fun isConnectedToInternet(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        val networkCapabilities =
+            connectivityManager.getNetworkCapabilities(network) ?: return false
         return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 }
 
 inline fun <reified T> safeApiCall(apiCall: () -> Response<T>): T {
-    return try {
-        val apiResponse = apiCall.invoke() as Response<*>
-        when (apiResponse.code()) {
-            in 200..201 -> {
-               apiResponse.body() as T
-            }
-            204 -> {
-                throw NetworkRequestException(R.string.no_content_found_please_try_again_later, apiResponse.code())
-            }
-            400 -> {
-                throw NetworkRequestException(R.string.bad_request_try_again, apiResponse.code())
-            }
-            401 -> {
-                throw NetworkRequestException(R.string.user_not_found_please_try_again, apiResponse.code())
-            }
-            404 -> {
-                throw NetworkRequestException(R.string.server_not_found_please_contact_it_for_support, apiResponse.code())
-            }
-            in 405..499 -> {
-                throw NetworkRequestException(R.string.client_error_please_try_again_later, apiResponse.code())
-            }
-            in 500..599 -> {
-                throw NetworkRequestException(R.string.server_error_please_contact_it_for_support, apiResponse.code())
-            }
-            else -> {
-                throw NetworkRequestException(R.string.unknown_error_please_contact_it_support, apiResponse.code())
-            }
+    val apiResponse = apiCall.invoke() as Response<*>
+    return when (apiResponse.code()) {
+        201,
+        200 -> {
+            apiResponse.body() as T
         }
-    } catch (exception: Exception){
-        throw (exception as NetworkRequestException).copy(messageResId = R.string.unknown_error_please_contact_it_support, code = 0)
+        204 -> {
+            throw NetworkRequestException(
+                R.string.no_content_found_please_try_again_later,
+                apiResponse.code()
+            )
+        }
+        400 -> {
+            throw NetworkRequestException(R.string.bad_request_try_again, apiResponse.code())
+        }
+        401 -> {
+            throw NetworkRequestException(
+                R.string.user_not_found_please_try_again,
+                apiResponse.code()
+            )
+        }
+        404 -> {
+            throw NetworkRequestException(
+                R.string.server_not_found_please_contact_it_for_support,
+                apiResponse.code()
+            )
+        }
+        405 -> {
+            throw NetworkRequestException(
+                R.string.client_error_please_try_again_later,
+                apiResponse.code()
+            )
+        }
+        500 -> {
+            throw NetworkRequestException(
+                R.string.server_error_please_contact_it_for_support,
+                apiResponse.code()
+            )
+        }
+        else -> {
+            throw NetworkRequestException(
+                R.string.unknown_error_please_contact_it_support,
+                apiResponse.code()
+            )
+        }
     }
 }

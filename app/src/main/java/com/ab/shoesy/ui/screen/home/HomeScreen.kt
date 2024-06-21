@@ -1,5 +1,6 @@
 package com.ab.shoesy.ui.screen.home
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,9 +39,12 @@ import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.screen.home.composable.BrandItem
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() {
-    Scaffold { paddingValues ->
+fun HomeScreen(
+    paddingValues: PaddingValues
+) {
+    Scaffold {
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -180,7 +184,7 @@ fun HomeScreen() {
 @Composable
 private fun HomeScreenLightPreview() {
     ShoesyTheme {
-        HomeScreen()
+        HomeScreen(paddingValues = PaddingValues())
     }
 }
 
@@ -188,6 +192,6 @@ private fun HomeScreenLightPreview() {
 @Composable
 private fun HomeScreenDarkPreview() {
     ShoesyTheme {
-        HomeScreen()
+        HomeScreen(paddingValues = PaddingValues())
     }
 }

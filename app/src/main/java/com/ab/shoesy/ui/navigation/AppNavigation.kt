@@ -16,6 +16,7 @@ import com.ab.shoesy.ui.screen.create_account.CreateAccountScreen
 import com.ab.shoesy.ui.screen.login.LoginContract
 import com.ab.shoesy.ui.screen.login.LoginScreen
 import com.ab.shoesy.ui.screen.login.LoginViewModel
+import com.ab.shoesy.ui.screen.main.MainScreen
 import com.ab.shoesy.ui.screen.splash.SplashScreen
 import org.koin.androidx.compose.koinViewModel
 
@@ -47,6 +48,7 @@ fun AppNavHost(
                 onEvent = loginViewModel::setEvent,
                 sideEffects = loginViewModel.effect,
                 onNavigateToCreateAccount = navHostController::navigateToRegistration,
+                onNavigateToMain = navHostController::navigateToMain,
                 onShowErrorDialog = navHostController::navigateToErrorDialog
             )
         }
@@ -55,6 +57,10 @@ fun AppNavHost(
             CreateAccountScreen(
                 popBackToLogin = navHostController::popUpToLogin
             )
+        }
+
+        composable<Screen.Main> {
+            MainScreen()
         }
 
         dialog<Screen.ErrorDialog> { backstackEntry ->
@@ -78,6 +84,10 @@ fun NavHostController.navigateToLogin() {
 
 fun NavHostController.navigateToRegistration() {
     navigate(Screen.REGISTRATION)
+}
+
+fun NavHostController.navigateToMain() {
+    navigate(Screen.Main)
 }
 
 fun NavHostController.navigateToErrorDialog(resMessage: Int) {

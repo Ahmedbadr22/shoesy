@@ -1,6 +1,6 @@
 package com.ab.data.model.dto
 
 data class TokenDto(
-    val token: String,
+    val access: String,
     val refresh: String,
 )
