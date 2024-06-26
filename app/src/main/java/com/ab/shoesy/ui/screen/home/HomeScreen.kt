@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -42,7 +43,9 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    uiState: HomeContract.State,
+    onEvent: (HomeContract.Event) -> Unit,
 ) {
     Scaffold {
         Column(
@@ -67,10 +70,8 @@ fun HomeScreen(
                 LazyRow(
                     contentPadding = PaddingValues(start = 24.dp)
                 ) {
-                    items(6) {
-                        BrandItem(
-                            onClick = {}
-                        )
+                    items(uiState.brands) { brand ->
+                        BrandItem {}
                     }
                 }
             }
@@ -184,7 +185,11 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenLightPreview() {
     ShoesyTheme {
-        HomeScreen(paddingValues = PaddingValues())
+        HomeScreen(
+            paddingValues = PaddingValues(),
+            uiState = HomeContract.State(),
+            onEvent = {},
+        )
     }
 }
 
@@ -192,6 +197,10 @@ private fun HomeScreenLightPreview() {
 @Composable
 private fun HomeScreenDarkPreview() {
     ShoesyTheme {
-        HomeScreen(paddingValues = PaddingValues())
+        HomeScreen(
+            paddingValues = PaddingValues(),
+            uiState = HomeContract.State(),
+            onEvent = {},
+        )
     }
 }

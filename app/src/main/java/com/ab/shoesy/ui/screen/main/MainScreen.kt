@@ -1,17 +1,20 @@
 package com.ab.shoesy.ui.screen.main
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ab.shoesy.ui.screen.main.navigation.MainBottomTabs
 import com.ab.shoesy.ui.screen.main.navigation.MainNavHost
+import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @Composable
 fun MainScreen() {
@@ -20,11 +23,32 @@ fun MainScreen() {
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    LaunchedEffect(Unit) {
+        
+    }
+
     Scaffold(
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.background
+            ) {
                 NavigationBarItem(
-                    icon = { Icon(painter = painterResource(id = MainBottomTabs.Home.iconRes), contentDescription = null) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = MainBottomTabs.Home.iconRes),
+                            contentDescription = null
+                        )
+                    },
+                    selected = true,
+                    onClick = {}
+                )
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = MainBottomTabs.Favorite.iconRes),
+                            contentDescription = null
+                        )
+                    },
                     selected = false,
                     onClick = {
 
@@ -37,5 +61,13 @@ fun MainScreen() {
             navHostController = navHostController,
             paddingValues = paddingValues
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MainScreenPreview() {
+    ShoesyTheme {
+        MainScreen()
     }
 }

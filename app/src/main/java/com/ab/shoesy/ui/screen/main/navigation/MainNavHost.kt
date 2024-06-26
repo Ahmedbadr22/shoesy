@@ -2,10 +2,16 @@ package com.ab.shoesy.ui.screen.main.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.ab.shoesy.ui.screen.home.HomeContract
 import com.ab.shoesy.ui.screen.home.HomeScreen
+import com.ab.shoesy.ui.screen.home.HomeViewModel
+import kotlinx.coroutines.flow.emptyFlow
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
@@ -15,7 +21,15 @@ fun MainNavHost(
 ) {
     NavHost(navController = navHostController, startDestination = MainBottomTabs.Home) {
         composable<MainBottomTabs.Home> {
-            HomeScreen(paddingValues= paddingValues)
+            val homeViewModel: HomeViewModel = koinViewModel()
+
+            val uiState: HomeContract.State by homeViewModel.viewState.collectAsStateWithLifecycle()
+
+            HomeScreen(
+                paddingValues = paddingValues,
+                uiState = uiState,
+                onEvent = homeViewModel::setEvent,
+            )
         }
     }
 }
