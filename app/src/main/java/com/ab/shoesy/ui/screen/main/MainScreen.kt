@@ -6,11 +6,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ab.shoesy.ui.screen.main.navigation.MainBottomTabs
 import com.ab.shoesy.ui.screen.main.navigation.MainNavHost
@@ -20,17 +17,10 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
 fun MainScreen() {
     val navHostController = rememberNavController()
 
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
-    LaunchedEffect(Unit) {
-        
-    }
-
     Scaffold(
         bottomBar = {
             NavigationBar(
-                containerColor = MaterialTheme.colorScheme.background
+                containerColor = MaterialTheme.colorScheme.background,
             ) {
                 NavigationBarItem(
                     icon = {
@@ -40,7 +30,7 @@ fun MainScreen() {
                         )
                     },
                     selected = true,
-                    onClick = {}
+                    onClick = {},
                 )
                 NavigationBarItem(
                     icon = {
@@ -50,9 +40,7 @@ fun MainScreen() {
                         )
                     },
                     selected = false,
-                    onClick = {
-
-                    }
+                    onClick = {}
                 )
             }
         }

@@ -29,7 +29,7 @@ fun AppNavHost(
     NavHost(
         modifier = modifier.background(color = MaterialTheme.colorScheme.background),
         navController = navHostController,
-        startDestination = Screen.SPLASH
+        startDestination = Screen.Main
     ) {
 
         composable<Screen.SPLASH> {

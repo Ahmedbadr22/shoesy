@@ -39,6 +39,7 @@ import com.ab.shoesy.ui.composable.TitleSection
 import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.screen.home.composable.BrandItem
 import com.ab.shoesy.ui.theme.ShoesyTheme
+import com.ab.shoesy.ui.theme.grayColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -52,7 +53,7 @@ fun HomeScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             SearchButton(
                 modifier = Modifier
@@ -68,10 +69,13 @@ fun HomeScreen(
                 onSeeAllClick = {}
             ) {
                 LazyRow(
-                    contentPadding = PaddingValues(start = 24.dp)
+                    contentPadding = PaddingValues(horizontal = 24.dp)
                 ) {
                     items(uiState.brands) { brand ->
-                        BrandItem {}
+                        BrandItem(
+                            brand = brand,
+                            onClick = {}
+                        )
                     }
                 }
             }
@@ -82,13 +86,14 @@ fun HomeScreen(
                 onSeeAllClick = {}
             ) {
                 LazyRow(
-                    contentPadding = PaddingValues(start = 24.dp),
+                    contentPadding = PaddingValues(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(3) {
                         Column(
                             modifier = Modifier
                                 .width(150.dp),
+                            verticalArrangement = Arrangement.spacedBy(2.dp)
                         ) {
                             Box(
                                 modifier = Modifier
@@ -99,11 +104,7 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .size(150.dp)
                                         .clip(RoundedCornerShape(10))
-                                        .background(
-                                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                                                alpha = 0.2f
-                                            )
-                                        )
+                                        .background(color = grayColor)
                                         .padding(8.dp),
                                     painter = painterResource(id = R.drawable.nike_shoe),
                                     contentDescription = null
@@ -118,7 +119,7 @@ fun HomeScreen(
                                     Icon(
                                         painter = painterResource(id = R.drawable.nike),
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.6f)
+                                        tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                                     )
                                     FilledIconButton(
                                         modifier = Modifier.size(24.dp),
