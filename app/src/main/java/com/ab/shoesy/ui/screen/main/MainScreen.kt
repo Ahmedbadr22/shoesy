@@ -35,7 +35,27 @@ fun MainScreen() {
                 NavigationBarItem(
                     icon = {
                         Icon(
+                            painter = painterResource(id = MainBottomTabs.Discover.iconRes),
+                            contentDescription = null
+                        )
+                    },
+                    selected = false,
+                    onClick = {}
+                )
+                NavigationBarItem(
+                    icon = {
+                        Icon(
                             painter = painterResource(id = MainBottomTabs.Favorite.iconRes),
+                            contentDescription = null
+                        )
+                    },
+                    selected = false,
+                    onClick = {},
+                )
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = MainBottomTabs.Account.iconRes),
                             contentDescription = null
                         )
                     },

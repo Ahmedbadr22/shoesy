@@ -11,5 +11,11 @@ sealed class MainBottomTabs(
     data object Home : MainBottomTabs(iconRes = R.drawable.home)
 
     @Serializable
+    data object Discover : MainBottomTabs(iconRes = R.drawable.compass)
+
+    @Serializable
     data object Favorite : MainBottomTabs(iconRes = R.drawable.favorite)
+
+    @Serializable
+    data object Account : MainBottomTabs(iconRes = R.drawable.user)
 }
