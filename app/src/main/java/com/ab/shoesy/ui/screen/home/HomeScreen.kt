@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.SearchButton
 import com.ab.shoesy.ui.composable.TitleSection
@@ -57,7 +58,9 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 headerModifier = Modifier.padding(horizontal = 24.dp),
                 title = stringResource(R.string.brands),
-                onSeeAllClick = {}
+                onSeeAllClick = dropUnlessResumed {
+                    navHostController.navigate(Screen.Brands)
+                }
             ) {
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 24.dp)

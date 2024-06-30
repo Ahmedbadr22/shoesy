@@ -16,6 +16,7 @@ import com.ab.shoesy.ui.composable.ErrorDialog
 import com.ab.shoesy.ui.screen.brand.BrandContract
 import com.ab.shoesy.ui.screen.brand.BrandScreen
 import com.ab.shoesy.ui.screen.brand.BrandViewModel
+import com.ab.shoesy.ui.screen.brands.BrandsScreen
 import com.ab.shoesy.ui.screen.create_account.CreateAccountScreen
 import com.ab.shoesy.ui.screen.login.LoginContract
 import com.ab.shoesy.ui.screen.login.LoginScreen
@@ -83,6 +84,21 @@ fun AppNavHost(
 
             BrandScreen(
                 brand = brand.toData(),
+                uiState = uiState,
+                onEvent = brandViewModel::onEvent
+            )
+        }
+
+        composable<Screen.Brands> {
+            val brandViewModel: BrandViewModel = koinViewModel()
+
+            LaunchedEffect(Unit) {
+                brandViewModel.onEvent(BrandContract.Event.ListBrands)
+            }
+
+            val uiState: BrandContract.State by brandViewModel.viewState.collectAsStateWithLifecycle()
+
+            BrandsScreen(
                 uiState = uiState,
                 onEvent = brandViewModel::onEvent
             )

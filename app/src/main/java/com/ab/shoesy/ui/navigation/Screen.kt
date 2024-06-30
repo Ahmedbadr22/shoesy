@@ -21,6 +21,9 @@ sealed class Screen {
     data class Brand(val id: Int, val name: String, val image: String, val stockItemCount: Int) : Screen()
 
     @Serializable
+    data object Brands : Screen()
+
+    @Serializable
     data class ShoeDetail(val shoeId: Int) : Screen()
 
 

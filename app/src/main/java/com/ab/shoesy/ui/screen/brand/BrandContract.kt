@@ -9,6 +9,7 @@ import com.ab.domain.model.data.Shoe
 class BrandContract {
     sealed class Event: ViewEvent {
         data class ListShoesByBrandId(val brandId: Int) : Event()
+        data object ListBrands : Event()
     }
 
     sealed class SideEffects: ViewSideEffect {
@@ -16,6 +17,7 @@ class BrandContract {
 
     data class State(
         override val loading: Boolean = false,
-        val shoes: List<Shoe> = emptyList()
+        val shoes: List<Shoe> = emptyList(),
+        val brands: List<Brand> = emptyList()
     ) : ViewState
 }
