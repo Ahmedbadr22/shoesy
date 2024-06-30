@@ -22,9 +22,12 @@ import androidx.compose.ui.unit.dp
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.SearchButton
 import com.ab.shoesy.ui.composable.TitleSection
-import com.ab.shoesy.ui.screen.home.composable.BrandItem
-import com.ab.shoesy.ui.screen.home.composable.StockHorizontalShoeItem
-import com.ab.shoesy.ui.screen.home.composable.ShoeItem
+import com.ab.shoesy.ui.composable.BrandItem
+import com.ab.shoesy.ui.composable.LocalNavController
+import com.ab.shoesy.ui.composable.ShoeHorizontalShoeItem
+import com.ab.shoesy.ui.composable.ShoeItem
+import com.ab.shoesy.ui.navigation.Screen
+import com.ab.shoesy.ui.navigation.toRoute
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -34,7 +37,7 @@ fun HomeScreen(
     uiState: HomeContract.State,
     onEvent: (HomeContract.Event) -> Unit,
 ) {
-
+    val navHostController = LocalNavController.current
     Scaffold {
         Column(
             modifier = Modifier
@@ -62,7 +65,9 @@ fun HomeScreen(
                     items(uiState.brands) { brand ->
                         BrandItem(
                             brand = brand,
-                            onClick = {}
+                            onClick = {
+                                navHostController.navigate(brand.toRoute())
+                            }
                         )
                     }
                 }
@@ -76,8 +81,13 @@ fun HomeScreen(
                     contentPadding = PaddingValues(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
-                    items(uiState.specialForYouShoes) { stockItem ->
-                        ShoeItem(shoe = stockItem)
+                    items(uiState.specialForYouShoes) { shoe ->
+                        ShoeItem(
+                            shoe = shoe,
+                            onClick = {
+                                navHostController.navigate(Screen.ShoeDetail(shoe.id))
+                            }
+                        )
                     }
                 }
             }
@@ -96,7 +106,7 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     items(uiState.specialForYouShoes) { item ->
-                        StockHorizontalShoeItem(shoe = item)
+                        ShoeHorizontalShoeItem(shoe = item)
                     }
                 }
             }

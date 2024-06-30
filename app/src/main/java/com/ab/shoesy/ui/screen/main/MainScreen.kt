@@ -15,6 +15,7 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @Composable
 fun MainScreen() {
+
     val navHostController = rememberNavController()
 
     Scaffold(
@@ -67,7 +68,7 @@ fun MainScreen() {
     ) { paddingValues ->
         MainNavHost(
             navHostController = navHostController,
-            paddingValues = paddingValues
+            paddingValues = paddingValues,
         )
     }
 }

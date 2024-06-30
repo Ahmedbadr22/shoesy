@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
@@ -110,5 +113,27 @@ fun SearchButton(
                 )
             }
         }
+    }
+}
+
+
+@Composable
+fun FavoriteButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    iconSize: Int = 16
+) {
+    FilledIconButton(
+        modifier = modifier,
+        onClick = onClick,
+        colors = IconButtonDefaults.filledIconButtonColors(
+            containerColor = MaterialTheme.colorScheme.background
+        )
+    ) {
+        Icon(
+            modifier = Modifier.size(iconSize.dp),
+            painter = painterResource(id = R.drawable.favorite),
+            contentDescription = stringResource(R.string.favorite),
+        )
     }
 }

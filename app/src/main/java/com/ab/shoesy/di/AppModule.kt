@@ -1,6 +1,6 @@
 package com.ab.shoesy.di
 
-import com.ab.core.constants.EndPoint
+import com.ab.core.constants.API
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -24,7 +24,7 @@ val appModule = module {
     single {
         val client: OkHttpClient = get()
         Retrofit.Builder()
-            .baseUrl(EndPoint.BASE_URL)
+            .baseUrl(API.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

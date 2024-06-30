@@ -1,8 +1,10 @@
-package com.ab.shoesy.ui.screen.home.composable
+package com.ab.shoesy.ui.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +21,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,20 +39,24 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.ab.domain.model.data.Shoe
 import com.ab.shoesy.R
-import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.grayColor
 
 @Composable
 fun ShoeItem(
     modifier: Modifier = Modifier,
-    shoe: Shoe
+    shoe: Shoe,
+    onClick: () -> Unit
 ) {
     val context = LocalContext.current
     Column(
         modifier = modifier
             .width(160.dp)
             .clip(RoundedCornerShape(10))
-            .clickable {  }
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current,
+                onClick = onClick
+            )
             .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
@@ -90,30 +97,26 @@ fun ShoeItem(
                         .size(24.dp),
                     contentDescription = shoe.brand.name
                 ) {
-                    when(painter.state){
+                    when (painter.state) {
                         is AsyncImagePainter.State.Error -> {
                         }
+
                         is AsyncImagePainter.State.Loading -> CircularProgressIndicator()
                         else -> Image(
                             painter = painter,
                             contentDescription = contentDescription,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f))
+                            colorFilter = ColorFilter.tint(
+                                MaterialTheme.colorScheme.onBackground.copy(
+                                    alpha = 0.5f
+                                )
+                            )
                         )
                     }
                 }
-                FilledIconButton(
+                FavoriteButton(
                     modifier = Modifier.size(24.dp),
-                    onClick = {  },
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    )
-                ) {
-                    Icon(
-                        modifier = Modifier.size(16.dp),
-                        painter = painterResource(id = R.drawable.favorite),
-                        contentDescription = null,
-                    )
-                }
+                    onClick = { /*TODO*/ }
+                )
             }
         }
         VerticalSpacer(space = 8)
@@ -158,7 +161,7 @@ fun ShoeItem(
 }
 
 @Composable
-fun StockHorizontalShoeItem(
+fun ShoeHorizontalShoeItem(
     modifier: Modifier = Modifier,
     shoe: Shoe
 ) {
@@ -167,7 +170,7 @@ fun StockHorizontalShoeItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10))
-            .clickable {  }
+            .clickable { }
             .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.Top

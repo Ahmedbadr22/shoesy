@@ -2,6 +2,8 @@ package com.ab.shoesy.di
 
 import com.ab.domain.usecases.auth.LoginUseCase
 import com.ab.domain.usecases.brand.ListBrandsUseCase
+import com.ab.domain.usecases.product.GetShoeByIdUseCase
+import com.ab.domain.usecases.product.ListShoesByBrandIdUseCase
 import com.ab.domain.usecases.product.ListSpecialShoeForYouUseCase
 import com.ab.domain.usecases.utils.EmailValidationUseCase
 import com.ab.domain.usecases.utils.PasswordValidationUseCase
@@ -14,4 +16,6 @@ val useCaseModule = module {
     singleOf(::PasswordValidationUseCase)
     singleOf(::ListBrandsUseCase)
     singleOf(::ListSpecialShoeForYouUseCase)
+    singleOf(::ListShoesByBrandIdUseCase)
+    singleOf(::GetShoeByIdUseCase)
 }

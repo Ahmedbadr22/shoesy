@@ -11,4 +11,12 @@ class ProductRemoteDataSourceImpl(
     override suspend fun listSpecialForYou(): List<ShoeDto> = safeApiCall {
         productService.listSpecialForYou()
     }
+
+    override suspend fun listShoesByBrandId(brandId: Int): List<ShoeDto> = safeApiCall {
+        productService.listShoesByBrandId(brandId)
+    }
+
+    override suspend fun getShoeById(id: Int): ShoeDto = safeApiCall {
+        productService.getShoeById(id)
+    }
 }

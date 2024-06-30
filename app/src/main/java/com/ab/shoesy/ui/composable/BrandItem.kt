@@ -1,4 +1,4 @@
-package com.ab.shoesy.ui.screen.home.composable
+package com.ab.shoesy.ui.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalIndication
@@ -28,7 +28,6 @@ import coil.compose.SubcomposeAsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.ab.domain.model.data.Brand
-import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.grayColor
 
 

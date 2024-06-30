@@ -60,7 +60,7 @@ abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState> : ViewModel
 
     protected abstract fun handleEvents(event: Event)
 
-    fun setEvent(event: Event) {
+    fun onEvent(event: Event) {
         viewModelScope.launch { _event.emit(event) }
     }
 

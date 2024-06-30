@@ -16,7 +16,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MainNavHost(
     paddingValues: PaddingValues,
-    navHostController: NavHostController
+    navHostController: NavHostController,
 ) {
     NavHost(navController = navHostController, startDestination = MainBottomTabs.Home) {
         composable<MainBottomTabs.Home> {
@@ -27,7 +27,7 @@ fun MainNavHost(
             HomeScreen(
                 paddingValues = paddingValues,
                 uiState = uiState,
-                onEvent = homeViewModel::setEvent,
+                onEvent = homeViewModel::onEvent,
             )
         }
     }

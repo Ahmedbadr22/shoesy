@@ -24,4 +24,13 @@
     <string name="i_icon">I Icon</string>
     <string name="error">Error</string>
     <string name="most_popular">Most Popular</string>
+    <string name="back">Back</string>
+    <string name="cart">Cart</string>
+    <string name="favorite">Favorite</string>
+    <string name="description">Description</string>
+    <string name="size">Size</string>
+    <string name="add_to_cart">ADD TO CART</string>
+    <string name="price">Price</string>
+    <string name="sneakers">Sneakers</string>
+    <string name="not_available_yet">Not available yet</string>
 </resources>

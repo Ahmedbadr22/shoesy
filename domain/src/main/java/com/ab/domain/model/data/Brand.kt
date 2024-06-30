@@ -1,7 +1,10 @@
 package com.ab.domain.model.data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Brand(
-    val id: String,
+    val id: Int,
     val name: String,
     val image: String,
     val stockItemCount: Int,
