@@ -22,19 +22,21 @@ fun TopBar(
     modifier: Modifier = Modifier,
     title: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    onBackArrowPress: () -> Unit
+    onBackArrowPress: (() -> Unit)? = null
 ) {
     TopAppBar(
         modifier = modifier,
         title = title,
         navigationIcon = {
-            IconButton(
-                onClick = dropUnlessResumed(block = onBackArrowPress)
-            ) {
-                Icon(
-                    Icons.Outlined.ArrowBack,
-                    contentDescription = stringResource(R.string.back)
-                )
+            if (onBackArrowPress != null) {
+                IconButton(
+                    onClick = dropUnlessResumed(block = onBackArrowPress)
+                ) {
+                    Icon(
+                        Icons.Outlined.ArrowBack,
+                        contentDescription = stringResource(R.string.back)
+                    )
+                }
             }
         },
         actions = actions,

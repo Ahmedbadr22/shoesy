@@ -5,17 +5,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed class MainBottomTabs(
-    @DrawableRes val iconRes: Int
+    @DrawableRes val iconRes: Int,
+    val route: String,
 ) {
     @Serializable
-    data object Home : MainBottomTabs(iconRes = R.drawable.home)
+    data object Home : MainBottomTabs(iconRes = R.drawable.home, route = "home")
 
     @Serializable
-    data object Discover : MainBottomTabs(iconRes = R.drawable.compass)
+    data object Cart : MainBottomTabs(iconRes = R.drawable.bag, route = "cart")
 
     @Serializable
-    data object Favorite : MainBottomTabs(iconRes = R.drawable.favorite)
+    data object Favorite : MainBottomTabs(iconRes = R.drawable.favorite, route = "favorite")
 
     @Serializable
-    data object Account : MainBottomTabs(iconRes = R.drawable.user)
+    data object Account : MainBottomTabs(iconRes = R.drawable.user, route = "account")
 }
