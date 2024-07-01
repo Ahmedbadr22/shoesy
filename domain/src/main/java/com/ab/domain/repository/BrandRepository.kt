@@ -4,5 +4,5 @@ import com.ab.domain.model.data.Brand
 
 interface BrandRepository {
 
-    suspend fun list() : List<Brand>
+    suspend fun list(token: String) : List<Brand>
 }

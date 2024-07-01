@@ -5,10 +5,10 @@ import com.ab.data.model.dto.BrandDto
 import com.ab.data.service.BrandService
 
 class BrandRemoteDataSourceImpl(
-    private val brandService: BrandService
+    private val brandService: BrandService,
 ) : BrandRemoteDataSource {
 
-    override suspend fun list(): List<BrandDto> = safeApiCall {
-        brandService.list()
+    override suspend fun list(token: String): List<BrandDto> = safeApiCall {
+        brandService.list(token)
     }
 }

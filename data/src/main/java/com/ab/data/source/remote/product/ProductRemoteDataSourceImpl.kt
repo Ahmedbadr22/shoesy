@@ -8,15 +8,15 @@ class ProductRemoteDataSourceImpl(
     private val productService: ProductService
 ) : ProductRemoteDataSource {
 
-    override suspend fun listSpecialForYou(): List<ShoeDto> = safeApiCall {
-        productService.listSpecialForYou()
+    override suspend fun listSpecialForYou(token: String): List<ShoeDto> = safeApiCall {
+        productService.listSpecialForYou(token)
     }
 
-    override suspend fun listShoesByBrandId(brandId: Int): List<ShoeDto> = safeApiCall {
-        productService.listShoesByBrandId(brandId)
+    override suspend fun listShoesByBrandId(brandId: Int, token: String): List<ShoeDto> = safeApiCall {
+        productService.listShoesByBrandId(brandId, token)
     }
 
-    override suspend fun getShoeById(id: Int): ShoeDto = safeApiCall {
-        productService.getShoeById(id)
+    override suspend fun getShoeById(id: Int, token: String): ShoeDto = safeApiCall {
+        productService.getShoeById(id, token)
     }
 }

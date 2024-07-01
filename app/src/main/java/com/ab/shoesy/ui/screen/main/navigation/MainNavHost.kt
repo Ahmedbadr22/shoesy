@@ -7,6 +7,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.ab.shoesy.ui.screen.cart.CartScreen
 import com.ab.shoesy.ui.screen.favorite.FavoriteScreen
 import com.ab.shoesy.ui.screen.home.HomeContract
 import com.ab.shoesy.ui.screen.home.HomeScreen
@@ -34,6 +35,10 @@ fun MainNavHost(
 
         composable(route = MainBottomTabs.Favorite.route) {
             FavoriteScreen()
+        }
+
+        composable(route = MainBottomTabs.Cart.route) {
+            CartScreen()
         }
     }
 }

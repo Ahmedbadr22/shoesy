@@ -10,6 +10,7 @@ import com.ab.shoesy.di.repositoryModule
 import com.ab.shoesy.di.serviceModule
 import com.ab.shoesy.di.useCaseModule
 import com.ab.shoesy.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class ShoesyApplication : Application(), ImageLoaderFactory {
@@ -18,6 +19,7 @@ class ShoesyApplication : Application(), ImageLoaderFactory {
         super.onCreate()
 
         startKoin {
+            androidContext(this@ShoesyApplication)
             modules(
                 listOf(
                     appModule,

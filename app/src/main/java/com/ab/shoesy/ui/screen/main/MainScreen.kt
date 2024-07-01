@@ -34,7 +34,7 @@ fun MainScreen() {
                     icon = {
                         Icon(
                             painter = painterResource(id = MainBottomTabs.Home.iconRes),
-                            contentDescription = null
+                            contentDescription = MainBottomTabs.Home.route
                         )
                     },
                     selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Home.route } == true,
@@ -50,7 +50,7 @@ fun MainScreen() {
                     icon = {
                         Icon(
                             painter = painterResource(id = MainBottomTabs.Favorite.iconRes),
-                            contentDescription = null
+                            contentDescription = MainBottomTabs.Favorite.route
                         )
                     },
                     selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Favorite.route } == true,
@@ -66,17 +66,23 @@ fun MainScreen() {
                     icon = {
                         Icon(
                             painter = painterResource(id = MainBottomTabs.Cart.iconRes),
-                            contentDescription = null
+                            contentDescription = MainBottomTabs.Cart.route
                         )
                     },
                     selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Cart.route } == true,
-                    onClick = {}
+                    onClick = {
+                        navHostController.navigate(MainBottomTabs.Cart.route) {
+                            popUpTo(navHostController.graph.findStartDestination().id) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 )
                 NavigationBarItem(
                     icon = {
                         Icon(
                             painter = painterResource(id = MainBottomTabs.Account.iconRes),
-                            contentDescription = null
+                            contentDescription = MainBottomTabs.Account.route
                         )
                     },
                     selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Account.route } == true,

@@ -8,8 +8,8 @@ import com.ab.domain.repository.BrandRepository
 class BrandRepositoryImpl(
     private val brandRemoteDataSource: BrandRemoteDataSource
 ) : BrandRepository {
-    override suspend fun list(): List<Brand> {
-        val brandsDto = brandRemoteDataSource.list()
+    override suspend fun list(token: String): List<Brand> {
+        val brandsDto = brandRemoteDataSource.list(token)
         return brandsDto.toBrandList()
     }
 

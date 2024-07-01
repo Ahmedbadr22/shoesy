@@ -6,4 +6,7 @@ import com.ab.domain.model.form.LoginForm
 interface AuthenticationRepository {
 
     suspend fun login(loginForm: LoginForm) : Token
+
+    suspend fun setToken(token: Token)
+    suspend fun getAccessToken(): String
 }

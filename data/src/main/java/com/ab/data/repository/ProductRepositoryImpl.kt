@@ -10,18 +10,18 @@ class ProductRepositoryImpl(
     private val stockRemoteDataSource: ProductRemoteDataSource
 ) : ProductRepository {
 
-    override suspend fun listSpecialForYou(): List<Shoe> {
-        val shoes = stockRemoteDataSource.listSpecialForYou()
+    override suspend fun listSpecialForYou(token: String): List<Shoe> {
+        val shoes = stockRemoteDataSource.listSpecialForYou(token)
         return shoes.toDomainList()
     }
 
-    override suspend fun listShoesByBrandId(brandId: Int): List<Shoe> {
-        val shoes = stockRemoteDataSource.listShoesByBrandId(brandId)
+    override suspend fun listShoesByBrandId(brandId: Int, token: String): List<Shoe> {
+        val shoes = stockRemoteDataSource.listShoesByBrandId(brandId, token)
         return shoes.toDomainList()
     }
 
-    override suspend fun getShoeById(id: Int): Shoe {
-        val shoes = stockRemoteDataSource.getShoeById(id)
+    override suspend fun getShoeById(id: Int, token: String): Shoe {
+        val shoes = stockRemoteDataSource.getShoeById(id, token)
         return shoes.toDomain()
     }
 }
