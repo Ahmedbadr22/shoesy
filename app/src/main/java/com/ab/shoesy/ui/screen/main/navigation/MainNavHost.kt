@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ab.shoesy.ui.screen.cart.CartScreen
 import com.ab.shoesy.ui.screen.favorite.FavoriteScreen
+import com.ab.shoesy.ui.screen.favorite.FavoriteViewModel
 import com.ab.shoesy.ui.screen.home.HomeContract
 import com.ab.shoesy.ui.screen.home.HomeScreen
 import com.ab.shoesy.ui.screen.home.HomeViewModel
@@ -34,7 +35,14 @@ fun MainNavHost(
         }
 
         composable(route = MainBottomTabs.Favorite.route) {
-            FavoriteScreen()
+            val favoriteViewModel: FavoriteViewModel = koinViewModel()
+
+            val uiState by favoriteViewModel.viewState.collectAsStateWithLifecycle()
+
+            FavoriteScreen(
+                uiState = uiState,
+                onEvent = favoriteViewModel::onEvent
+            )
         }
 
         composable(route = MainBottomTabs.Cart.route) {

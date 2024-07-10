@@ -16,7 +16,6 @@ val appModule = module {
             .connectTimeout(15, TimeUnit.MINUTES)
             .readTimeout(15, TimeUnit.MINUTES)
             .writeTimeout(15, TimeUnit.MINUTES)
-            .retryOnConnectionFailure(true)
             .addInterceptor(logger)
             .build()
     }

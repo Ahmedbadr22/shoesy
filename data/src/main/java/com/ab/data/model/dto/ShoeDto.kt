@@ -9,5 +9,6 @@ data class ShoeDto(
     val sizes: List<Int>,
     val colors: List<ColorDto>,
     val image: String,
-    val brand: BrandDto
+    val brand: BrandDto,
+    val isFavorite: Boolean
 )

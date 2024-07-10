@@ -121,7 +121,8 @@ fun SearchButton(
 fun FavoriteButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    iconSize: Int = 16
+    iconSize: Int = 16,
+    isFavorite: Boolean = false
 ) {
     FilledIconButton(
         modifier = modifier,
@@ -130,10 +131,19 @@ fun FavoriteButton(
             containerColor = MaterialTheme.colorScheme.background
         )
     ) {
-        Icon(
-            modifier = Modifier.size(iconSize.dp),
-            painter = painterResource(id = R.drawable.favorite),
-            contentDescription = stringResource(R.string.favorite),
-        )
+        if (isFavorite) {
+            Icon(
+                modifier = Modifier.size(iconSize.dp),
+                painter = painterResource(id = R.drawable.fill_favorite),
+                contentDescription = stringResource(R.string.favorite),
+                tint = MaterialTheme.colorScheme.error
+            )
+        } else {
+            Icon(
+                modifier = Modifier.size(iconSize.dp),
+                painter = painterResource(id = R.drawable.favorite),
+                contentDescription = stringResource(R.string.favorite),
+            )
+        }
     }
 }

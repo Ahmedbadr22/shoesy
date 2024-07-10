@@ -15,9 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -115,6 +112,7 @@ fun ShoeItem(
                 }
                 FavoriteButton(
                     modifier = Modifier.size(24.dp),
+                    isFavorite = shoe.isFavorite,
                     onClick = { /*TODO*/ }
                 )
             }
@@ -163,7 +161,8 @@ fun ShoeItem(
 @Composable
 fun ShoeHorizontalShoeItem(
     modifier: Modifier = Modifier,
-    shoe: Shoe
+    shoe: Shoe,
+    onFavoriteClick: () -> Unit
 ) {
     val context = LocalContext.current
     Row(
@@ -227,19 +226,12 @@ fun ShoeHorizontalShoeItem(
                         )
                     }
                 }
-                FilledIconButton(
+                FavoriteButton(
                     modifier = Modifier.size(30.dp),
-                    onClick = { },
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    )
-                ) {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.favorite),
-                        contentDescription = null,
-                    )
-                }
+                    isFavorite = shoe.isFavorite,
+                    onClick = onFavoriteClick,
+                    iconSize = 24
+                )
             }
             Text(
                 text = shoe.name,

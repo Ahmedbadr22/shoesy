@@ -1,5 +1,6 @@
 package com.ab.shoesy.ui.screen.main
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -7,8 +8,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -49,6 +52,7 @@ fun MainScreen() {
                 NavigationBarItem(
                     icon = {
                         Icon(
+                            modifier = Modifier.size(28.dp),
                             painter = painterResource(id = MainBottomTabs.Favorite.iconRes),
                             contentDescription = MainBottomTabs.Favorite.route
                         )

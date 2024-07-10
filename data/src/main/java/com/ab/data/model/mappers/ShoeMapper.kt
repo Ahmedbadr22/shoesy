@@ -12,7 +12,8 @@ fun ShoeDto.toDomain() = Shoe(
     brand = brand.toDomain(),
     colors = colors.toDomainList(),
     sizes = sizes,
-    quantity = quantity
+    quantity = quantity,
+    isFavorite = isFavorite
 )
 
 fun List<ShoeDto>.toDomainList() = map(ShoeDto::toDomain)

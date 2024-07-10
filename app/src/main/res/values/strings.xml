@@ -33,4 +33,5 @@
     <string name="price">Price</string>
     <string name="sneakers">Sneakers</string>
     <string name="not_available_yet">Not available yet</string>
+    <string name="found_0_favorite_shoe_s">Found \'0\' Favorite Shoe\'s</string>
 </resources>

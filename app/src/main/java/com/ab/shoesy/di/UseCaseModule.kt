@@ -6,6 +6,9 @@ import com.ab.domain.usecases.brand.ListBrandsUseCase
 import com.ab.domain.usecases.product.GetShoeByIdUseCase
 import com.ab.domain.usecases.product.ListShoesByBrandIdUseCase
 import com.ab.domain.usecases.product.ListSpecialShoeForYouUseCase
+import com.ab.domain.usecases.product.ListUserFavoriteShoesUseCases
+import com.ab.domain.usecases.product.MarkShoeAsFavoriteByIdUseCase
+import com.ab.domain.usecases.product.MarkShoeAsUnFavoriteByIdUseCase
 import com.ab.domain.usecases.utils.EmailValidationUseCase
 import com.ab.domain.usecases.utils.PasswordValidationUseCase
 import org.koin.core.module.dsl.singleOf
@@ -20,4 +23,7 @@ val useCaseModule = module {
     singleOf(::ListShoesByBrandIdUseCase)
     singleOf(::GetShoeByIdUseCase)
     singleOf(::GetAccessTokenUseCase)
+    singleOf(::ListUserFavoriteShoesUseCases)
+    singleOf(::MarkShoeAsFavoriteByIdUseCase)
+    singleOf(::MarkShoeAsUnFavoriteByIdUseCase)
 }

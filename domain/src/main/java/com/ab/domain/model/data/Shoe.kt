@@ -9,5 +9,6 @@ data class Shoe(
     val sizes: List<Int>,
     val colors: List<Color>,
     val image: String,
-    val brand: Brand
+    val brand: Brand,
+    val isFavorite: Boolean
 )

@@ -109,7 +109,7 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     items(uiState.specialForYouShoes) { item ->
-                        ShoeHorizontalShoeItem(shoe = item)
+                        ShoeHorizontalShoeItem(shoe = item, onFavoriteClick = {})
                     }
                 }
             }

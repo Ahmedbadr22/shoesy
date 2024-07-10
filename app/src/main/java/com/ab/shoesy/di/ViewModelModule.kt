@@ -1,6 +1,7 @@
 package com.ab.shoesy.di
 
 import com.ab.shoesy.ui.screen.brand.BrandViewModel
+import com.ab.shoesy.ui.screen.favorite.FavoriteViewModel
 import com.ab.shoesy.ui.screen.home.HomeViewModel
 import com.ab.shoesy.ui.screen.login.LoginViewModel
 import com.ab.shoesy.ui.screen.shoe.ShoeViewModel
@@ -12,4 +13,5 @@ val viewModelModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::BrandViewModel)
     viewModelOf(::ShoeViewModel)
+    viewModelOf(::FavoriteViewModel)
 }
