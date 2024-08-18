@@ -8,6 +8,8 @@ import com.ab.domain.model.data.Shoe
 
 class HomeContract {
     sealed class Event: ViewEvent {
+        data class MarkSpecialForYouShoeAsFavorite(val shoeId: Int) : Event()
+        data class MarkSpecialForYouShoeAsUnFavorite(val shoeId: Int) : Event()
     }
 
     sealed class SideEffects: ViewSideEffect {

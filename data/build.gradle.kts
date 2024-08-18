@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.ab.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 25
@@ -54,4 +55,10 @@ dependencies {
     implementation (libs.logging.interceptor)
     implementation (libs.androidx.datastore.preferences)
     implementation (libs.androidx.datastore.preferences.core)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.compiler)
+    // To use Kotlin annotation processing tool (kapt)
+    ksp(libs.androidx.room.compiler)
 }

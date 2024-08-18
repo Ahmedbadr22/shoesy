@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ab.shoesy.ui.screen.cart.CartScreen
+import com.ab.shoesy.ui.screen.cart.CartViewModel
 import com.ab.shoesy.ui.screen.favorite.FavoriteScreen
 import com.ab.shoesy.ui.screen.favorite.FavoriteViewModel
 import com.ab.shoesy.ui.screen.home.HomeContract
@@ -46,7 +47,14 @@ fun MainNavHost(
         }
 
         composable(route = MainBottomTabs.Cart.route) {
-            CartScreen()
+            val cartViewModel: CartViewModel = koinViewModel()
+
+            val uiState by cartViewModel.viewState.collectAsStateWithLifecycle()
+
+            CartScreen(
+                uiState = uiState,
+                onEvent = cartViewModel::onEvent
+            )
         }
     }
 }

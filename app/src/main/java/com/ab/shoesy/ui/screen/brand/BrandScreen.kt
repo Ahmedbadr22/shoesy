@@ -43,6 +43,7 @@ import com.ab.domain.model.data.Brand
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.LocalNavController
 import com.ab.shoesy.ui.composable.ShoeItem
+import com.ab.shoesy.ui.navigation.Screen
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -133,7 +134,16 @@ fun BrandScreen(
                     columns = GridCells.Fixed(2)
                 ) {
                     items(uiState.shoes) { shoe ->
-                        ShoeItem(shoe = shoe, onClick = {})
+                        ShoeItem(
+                            shoe = shoe,
+                            onClick = {
+                                navHostController.navigate(Screen.ShoeDetail(shoe.id))
+                            },
+                            onFavoriteClick = {
+                                if (shoe.isFavorite) onEvent(BrandContract.Event.MarkShoeAsUnFavorite(shoe.id))
+                                else onEvent(BrandContract.Event.MarkShoeAsFavorite(shoe.id))
+                            }
+                        )
                     }
                 }
             } else {
@@ -171,7 +181,6 @@ private fun BrandScreenLightPreview() {
                 id = 0,
                 name = "",
                 image = "",
-                stockItemCount = 0
             ),
             uiState = BrandContract.State(),
             onEvent = { }
@@ -188,7 +197,6 @@ private fun BrandScreenDarkPreview() {
                 id = 0,
                 name = "Nike",
                 image = "",
-                stockItemCount = 0
             ),
             uiState = BrandContract.State(),
             onEvent = { }

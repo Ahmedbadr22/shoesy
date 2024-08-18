@@ -1,10 +1,14 @@
 package com.ab.data.model.mappers
 
-import com.ab.data.model.dto.BrandDto
 import com.ab.data.model.dto.ColorDto
-import com.ab.domain.model.data.Brand
 import com.ab.domain.model.data.Color
+import com.ab.data.model.entity.ColorEntity
 
-fun ColorDto.toDomain() = Color(id, name, hex)
+fun ColorDto.toEntity() = ColorEntity(id, name, hex)
 
-fun List<ColorDto>.toDomainList() = map(ColorDto::toDomain)
+fun List<ColorDto>.toEntities() = map { color -> color.toEntity() }
+
+
+fun ColorEntity.toDomain() = Color(colorId, name, hex)
+
+fun List<ColorEntity>.toDomainList() = map(ColorEntity::toDomain)

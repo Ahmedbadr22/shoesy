@@ -3,13 +3,15 @@ package com.ab.core.constants
 
 object API {
     // Base Url
-    const val BASE_URL = "https://cb23-41-233-17-196.ngrok-free.app"
+    const val BASE_URL = "https://3fca-41-47-164-62.ngrok-free.app"
 
     // App
     private const val AUTH_APP = "/auth"
     private const val BRAND_APP = "/brand"
     private const val PRODUCT_APP = "/product"
     private const val FAVORITE_APP = "/favorite"
+    private const val COLOR_APP = "/color"
+    private const val CART_APP = "/cart"
 
     // Path
     const val ID_PATH = "id"
@@ -21,12 +23,21 @@ object API {
     const val LIST_BRANDS_ENDPOINT = "$BRAND_APP/list"
     // Product
     const val LIST_SPECIAL_PRODUCT_FOR_YOU_ENDPOINT = "$PRODUCT_APP/list-special-shoes-for-you"
+    const val LIST_ALL_PRODUCT_ENDPOINT = "$PRODUCT_APP/list"
     const val LIST_SHOES_BY_BRAND_ID = "$PRODUCT_APP/list-shoes-by-brand-id/{$ID_PATH}"
     const val LIST_USER_FAVORITE_SHOES = "$PRODUCT_APP/list-user-favorites"
     const val GET_SHOE_BY_ID = "$PRODUCT_APP/get-shoe-by-id/{$ID_PATH}"
     // Favorite
     const val POST_FAVORITE_SHOE = "$FAVORITE_APP/add-favorite"
     const val DELETE_FAVORITE_SHOE = "$FAVORITE_APP/delete-favorite/{$ID_PATH}"
+    // Color
+    const val LIST_COLORS_ENDPOINT = "$COLOR_APP/list"
+
+    // Cart
+    const val POST_CART_ITEM_ENDPOINT = "$CART_APP/create"
+    const val LIST_CART_ITEMS_ENDPOINT = "$CART_APP/list"
+    const val UPDATE_CART_ITEM_QUANTITY_ENDPOINT = "$CART_APP/update/{$ID_PATH}"
+    const val DELETE_CART_ITEM_ENDPOINT = "$CART_APP/delete/{$ID_PATH}"
 }
 
 

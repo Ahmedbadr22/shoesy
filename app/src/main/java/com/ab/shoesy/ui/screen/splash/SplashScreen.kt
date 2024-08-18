@@ -14,20 +14,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.ab.core.base.ViewSideEffect
 import com.ab.core.constants.App.SPLASH_DELAY_TIME
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.theme.ShoesyTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emptyFlow
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SplashScreen(
-    onDelayFinish: () -> Unit
+    effect: Flow<ViewSideEffect>,
+    onNavigateToLogin: () -> Unit,
+    onNavigateToMain: () -> Unit,
 ) {
 
     LaunchedEffect(Unit) {
         delay(SPLASH_DELAY_TIME)
-        onDelayFinish()
+        effect.collectLatest { effect ->
+            when(effect) {
+                is SplashContract.SideEffects.NavigateToLoginScreen -> onNavigateToLogin()
+                is SplashContract.SideEffects.NavigateToMainScreen -> onNavigateToMain()
+            }
+        }
     }
 
     Scaffold {
@@ -47,7 +58,11 @@ fun SplashScreen(
 @Composable
 private fun SplashScreenLightPreview() {
     ShoesyTheme {
-        SplashScreen(onDelayFinish = {})
+        SplashScreen(
+            onNavigateToLogin = {},
+            onNavigateToMain = {},
+            effect = emptyFlow()
+        )
     }
 }
 
@@ -55,6 +70,10 @@ private fun SplashScreenLightPreview() {
 @Composable
 private fun SplashScreenDarkPreview() {
     ShoesyTheme {
-        SplashScreen(onDelayFinish = {})
+        SplashScreen(
+            onNavigateToLogin = {},
+            onNavigateToMain = {},
+            effect = emptyFlow()
+        )
     }
 }

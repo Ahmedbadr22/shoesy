@@ -5,6 +5,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.util.DebugLogger
 import com.ab.shoesy.di.appModule
+import com.ab.shoesy.di.daoModule
 import com.ab.shoesy.di.dataSourceModule
 import com.ab.shoesy.di.repositoryModule
 import com.ab.shoesy.di.serviceModule
@@ -24,6 +25,7 @@ class ShoesyApplication : Application(), ImageLoaderFactory {
                 listOf(
                     appModule,
                     serviceModule,
+                    daoModule,
                     dataSourceModule,
                     repositoryModule,
                     useCaseModule,

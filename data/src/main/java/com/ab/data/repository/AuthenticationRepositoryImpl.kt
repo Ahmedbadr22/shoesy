@@ -33,6 +33,6 @@ class AuthenticationRepositoryImpl(
     }
 
     override suspend fun getAccessToken(): String {
-        return context.authDataStore.getStringFlow("access_token") ?: "null"
+        return context.authDataStore.getStringFlow("access_token") ?: ""
     }
 }

@@ -15,7 +15,7 @@ class MarkShoeAsFavoriteByIdUseCase(
     override fun invoke(input: Int): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading)
         val token = getAccessTokenUseCase()
-        productRepository.markAsFavorite(token, input)
+        productRepository.markIsFavoriteBYId(token, input)
         emit(Resource.Success(Unit))
     }.catch { cause: Throwable ->
         emit(Resource.Error(cause))

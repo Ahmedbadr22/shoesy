@@ -89,6 +89,10 @@ fun HomeScreen(
                             shoe = shoe,
                             onClick = {
                                 navHostController.navigate(Screen.ShoeDetail(shoe.id))
+                            },
+                            onFavoriteClick = {
+                                if (shoe.isFavorite) onEvent(HomeContract.Event.MarkSpecialForYouShoeAsUnFavorite(shoe.id))
+                                else onEvent(HomeContract.Event.MarkSpecialForYouShoeAsFavorite(shoe.id))
                             }
                         )
                     }
@@ -108,8 +112,17 @@ fun HomeScreen(
                     contentPadding = PaddingValues(horizontal = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(uiState.specialForYouShoes) { item ->
-                        ShoeHorizontalShoeItem(shoe = item, onFavoriteClick = {})
+                    items(uiState.specialForYouShoes) { shoe ->
+                        ShoeHorizontalShoeItem(
+                            shoe = shoe,
+                            onFavoriteClick = {
+                                if (shoe.isFavorite) onEvent(HomeContract.Event.MarkSpecialForYouShoeAsUnFavorite(shoe.id))
+                                else onEvent(HomeContract.Event.MarkSpecialForYouShoeAsFavorite(shoe.id))
+                            },
+                            onClick = {
+                                navHostController.navigate(Screen.ShoeDetail(shoe.id))
+                            }
+                        )
                     }
                 }
             }

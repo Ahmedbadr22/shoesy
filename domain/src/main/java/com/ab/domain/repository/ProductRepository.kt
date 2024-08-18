@@ -1,13 +1,18 @@
 package com.ab.domain.repository
 
 import com.ab.domain.model.data.Shoe
+import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
-    suspend fun listSpecialForYou(token: String) : List<Shoe>
-    suspend fun listShoesByBrandId(brandId: Int, token: String) : List<Shoe>
-    suspend fun getShoeById(id: Int, token: String) : Shoe
-    suspend fun listUserFavoriteShoes(token: String) : List<Shoe>
 
-    suspend fun markAsFavorite(token: String, shoeId: Int)
-    suspend fun unFavorite(token: String, shoeId: Int)
+    suspend fun listAllShoeFromRemoteToLocal(token: String)
+    fun listShoesByBrandId(brandId: Int) : Flow<List<Shoe>>
+    fun getByIdAsFlow(id: Int) : Flow<Shoe?>
+
+    fun listAllFavoritesFlow() : Flow<List<Shoe>>
+    fun listRandomShoeFlow() : Flow<List<Shoe>>
+    fun getFavoritesCountFlow() : Flow<Int>
+
+    suspend fun markIsFavoriteBYId(token: String, id: Int)
+    suspend fun markAsNotFavoriteById(token: String, id: Int)
 }

@@ -16,8 +16,8 @@ class ListUserFavoriteShoesUseCases(
     override fun invoke(): Flow<Resource<List<Shoe>>> = flow {
         emit(Resource.Loading)
         val token = getAccessTokenUseCase()
-        val shoes = productRepository.listUserFavoriteShoes(token)
-        emit(Resource.Success(shoes))
+        // val shoes = productRepository.listUserFavoriteShoes(token)
+        emit(Resource.Success(emptyList<Shoe>()))
     }.catch { throwable ->
         emit(Resource.Error(throwable))
     }

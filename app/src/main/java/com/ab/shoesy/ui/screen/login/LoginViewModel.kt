@@ -5,15 +5,19 @@ import com.ab.core.utils.NetworkRequestException
 import com.ab.core.utils.ValidationResource
 import com.ab.core.utils.handle
 import com.ab.domain.usecases.auth.LoginUseCase
+import com.ab.domain.usecases.master.DownloadMasterDataUseCase
 import com.ab.domain.usecases.utils.EmailValidationUseCase
 import com.ab.domain.usecases.utils.PasswordValidationUseCase
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
     private val emailValidationUseCase: EmailValidationUseCase,
-    private val passwordValidationUseCase: PasswordValidationUseCase
+    private val passwordValidationUseCase: PasswordValidationUseCase,
+    private val downloadMasterDataUseCase: DownloadMasterDataUseCase
 ): BaseViewModel<LoginContract.Event, LoginContract.State>() {
     override fun setInitialState(): LoginContract.State {
         return LoginContract.State()
@@ -61,7 +65,14 @@ class LoginViewModel(
                 loginUseCase(loginForm).collectLatest { resource ->
                     resource.handle(
                         onLoading = { isLoading -> setState { copy(loading = isLoading) }},
-                        onSuccess = { _ -> launch { setEffect { LoginContract.SideEffects.NavigateToMain } } },
+                        onSuccess = { _ ->
+                            launch {
+                                runBlocking {
+                                    downloadMasterDataUseCase().collect()
+                                    setEffect { LoginContract.SideEffects.NavigateToMain }
+                                }
+                            }
+                        },
                         onError = { error ->
                             launch {
                                 setEffect {

@@ -1,17 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization") version "1.9.24"
+    id("com.google.devtools.ksp")
 }
 
 android {
     namespace = "com.ab.shoesy"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ab.shoesy"
         minSdk = 25
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -94,4 +96,14 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
 
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    annotationProcessor(libs.androidx.room.compiler)
+    // To use Kotlin annotation processing tool (kapt)
+    ksp(libs.androidx.room.compiler)
+
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.foundation.layout)
+
 }
+

@@ -1,5 +1,6 @@
 package com.ab.shoesy.ui.composable
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
@@ -35,14 +36,18 @@ import coil.compose.SubcomposeAsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.ab.domain.model.data.Shoe
+import com.ab.domain.model.data.getAverageRate
+import com.ab.domain.model.data.getReviewCount
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.theme.grayColor
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun ShoeItem(
     modifier: Modifier = Modifier,
     shoe: Shoe,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onFavoriteClick: () -> Unit
 ) {
     val context = LocalContext.current
     Column(
@@ -113,7 +118,7 @@ fun ShoeItem(
                 FavoriteButton(
                     modifier = Modifier.size(24.dp),
                     isFavorite = shoe.isFavorite,
-                    onClick = { /*TODO*/ }
+                    onClick = onFavoriteClick
                 )
             }
         }
@@ -134,7 +139,7 @@ fun ShoeItem(
                 contentDescription = stringResource(R.string.star)
             )
             Text(
-                text = "4.5",
+                text = String.format("%.2f", shoe.getAverageRate()),
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 10.sp,
                     fontWeight = FontWeight.SemiBold
@@ -143,7 +148,7 @@ fun ShoeItem(
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                text = "(1045 Reviews)",
+                text = "(${shoe.getReviewCount()} Reviews)",
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -158,18 +163,20 @@ fun ShoeItem(
     }
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun ShoeHorizontalShoeItem(
     modifier: Modifier = Modifier,
     shoe: Shoe,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     val context = LocalContext.current
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(10))
-            .clickable { }
+            .clickable { onClick() }
             .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.Top
@@ -255,8 +262,8 @@ fun ShoeHorizontalShoeItem(
                     contentDescription = stringResource(R.string.star)
                 )
                 Text(
-                    text = "4.5",
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    text = String.format("%.1f", shoe.getAverageRate()),
+                    style = MaterialTheme.typography.bodySmall.copy(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold
                     ),
@@ -264,7 +271,7 @@ fun ShoeHorizontalShoeItem(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = "(1045 Reviews)",
+                    text = "(${shoe.getReviewCount()} Reviews)",
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,

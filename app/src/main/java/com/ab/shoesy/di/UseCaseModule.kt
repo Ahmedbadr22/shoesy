@@ -1,8 +1,15 @@
 package com.ab.shoesy.di
 
 import com.ab.domain.usecases.auth.GetAccessTokenUseCase
+import com.ab.domain.usecases.auth.IsAuthenticatedUserUseCase
 import com.ab.domain.usecases.auth.LoginUseCase
-import com.ab.domain.usecases.brand.ListBrandsUseCase
+import com.ab.domain.usecases.brand.ListBrandsFromRemoteToLocalUseCase
+import com.ab.domain.usecases.cart.DeleteCartItemByIdUseCase
+import com.ab.domain.usecases.cart.GetCartItemCountUseCase
+import com.ab.domain.usecases.cart.ListCartItemsFlowUseCase
+import com.ab.domain.usecases.cart.UpdateCartItemQuantityUseCase
+import com.ab.domain.usecases.master.DownloadMasterDataUseCase
+import com.ab.domain.usecases.product.GetFavoriteShoeCountUseCase
 import com.ab.domain.usecases.product.GetShoeByIdUseCase
 import com.ab.domain.usecases.product.ListShoesByBrandIdUseCase
 import com.ab.domain.usecases.product.ListSpecialShoeForYouUseCase
@@ -18,7 +25,7 @@ val useCaseModule = module {
     singleOf(::LoginUseCase)
     singleOf(::EmailValidationUseCase)
     singleOf(::PasswordValidationUseCase)
-    singleOf(::ListBrandsUseCase)
+    singleOf(::ListBrandsFromRemoteToLocalUseCase)
     singleOf(::ListSpecialShoeForYouUseCase)
     singleOf(::ListShoesByBrandIdUseCase)
     singleOf(::GetShoeByIdUseCase)
@@ -26,4 +33,11 @@ val useCaseModule = module {
     singleOf(::ListUserFavoriteShoesUseCases)
     singleOf(::MarkShoeAsFavoriteByIdUseCase)
     singleOf(::MarkShoeAsUnFavoriteByIdUseCase)
+    singleOf(::IsAuthenticatedUserUseCase)
+    singleOf(::DownloadMasterDataUseCase)
+    singleOf(::GetFavoriteShoeCountUseCase)
+    singleOf(::ListCartItemsFlowUseCase)
+    singleOf(::UpdateCartItemQuantityUseCase)
+    singleOf(::DeleteCartItemByIdUseCase)
+    singleOf(::GetCartItemCountUseCase)
 }

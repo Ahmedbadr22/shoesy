@@ -22,10 +22,12 @@ import com.ab.shoesy.ui.screen.login.LoginContract
 import com.ab.shoesy.ui.screen.login.LoginScreen
 import com.ab.shoesy.ui.screen.login.LoginViewModel
 import com.ab.shoesy.ui.screen.main.MainScreen
+import com.ab.shoesy.ui.screen.main.MainViewModel
 import com.ab.shoesy.ui.screen.shoe.ShoeContract
 import com.ab.shoesy.ui.screen.shoe.ShoeScreen
 import com.ab.shoesy.ui.screen.shoe.ShoeViewModel
 import com.ab.shoesy.ui.screen.splash.SplashScreen
+import com.ab.shoesy.ui.screen.splash.SplashViewModel
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -41,8 +43,12 @@ fun AppNavHost(
     ) {
 
         composable<Screen.SPLASH> {
+            val splashViewModel: SplashViewModel = koinViewModel()
+
             SplashScreen(
-                onDelayFinish = navHostController::navigateToLogin
+                effect = splashViewModel.effect,
+                onNavigateToLogin = navHostController::navigateToLogin,
+                onNavigateToMain = navHostController::navigateToMain
             )
         }
 
@@ -56,7 +62,13 @@ fun AppNavHost(
                 onEvent = loginViewModel::onEvent,
                 sideEffects = loginViewModel.effect,
                 onNavigateToCreateAccount = navHostController::navigateToRegistration,
-                onNavigateToMain = navHostController::navigateToMain,
+                onNavigateToMain = {
+                    navHostController.navigate(Screen.Main) {
+                        popUpTo(Screen.LOGIN) {
+                            inclusive = true
+                        }
+                    }
+                },
                 onShowErrorDialog = navHostController::navigateToErrorDialog
             )
         }
@@ -68,7 +80,12 @@ fun AppNavHost(
         }
 
         composable<Screen.Main> {
-            MainScreen()
+            val mainViewModel: MainViewModel = koinViewModel()
+
+            val uiState by mainViewModel.viewState.collectAsStateWithLifecycle()
+            MainScreen(
+                uiState = uiState
+            )
         }
 
         composable<Screen.Brand> { backstackEntry ->
@@ -145,7 +162,11 @@ fun NavHostController.navigateToRegistration() {
 }
 
 fun NavHostController.navigateToMain() {
-    navigate(Screen.Main)
+    navigate(Screen.Main) {
+        popUpTo(Screen.SPLASH) {
+            inclusive = true
+        }
+    }
 }
 
 fun NavHostController.navigateToErrorDialog(resMessage: Int) {

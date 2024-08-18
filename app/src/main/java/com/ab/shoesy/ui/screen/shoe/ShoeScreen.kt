@@ -1,13 +1,13 @@
 package com.ab.shoesy.ui.screen.shoe
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,22 +16,32 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -46,6 +56,8 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import com.ab.domain.model.data.getAverageRate
+import com.ab.domain.model.data.getReviewCount
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.FavoriteButton
 import com.ab.shoesy.ui.composable.LocalNavController
@@ -54,6 +66,8 @@ import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.ShoesyTheme
 import com.ab.shoesy.ui.theme.grayColor
 
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("DefaultLocale")
 @Composable
 fun ShoeScreen(
     uiState: ShoeContract.State,
@@ -62,18 +76,34 @@ fun ShoeScreen(
     val context = LocalContext.current
     val navHostController = LocalNavController.current
 
+    val sheetState = rememberModalBottomSheetState()
+
+    var showAddToCartBottomSheet by remember {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         topBar = {
             TopBar(
                 onBackArrowPress = dropUnlessResumed(block = navHostController::popBackStack),
                 actions = {
-                    IconButton(
-                        onClick = {}
+                    Box(
+                        modifier = Modifier.wrapContentSize(),
+                        contentAlignment = Alignment.TopEnd
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.bag),
-                            contentDescription = stringResource(R.string.cart)
-                        )
+                        IconButton(
+                            onClick = {
+
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.bag),
+                                contentDescription = stringResource(R.string.cart)
+                            )
+                        }
+                        Badge {
+                            Text(text = uiState.cartItemsCount.toString())
+                        }
                     }
                 }
             )
@@ -107,16 +137,29 @@ fun ShoeScreen(
             }
         }
     ) { paddingValues ->
+
+        if (showAddToCartBottomSheet) {
+            ModalBottomSheet(
+                sheetState = sheetState,
+                onDismissRequest = { showAddToCartBottomSheet = false }
+            ) {
+                Column {
+                    Text(text = "")
+                }
+            }
+        }
+
         if (uiState.shoe != null) {
             Column(
                 modifier = Modifier
                     .padding(horizontal = 24.dp)
                     .padding(paddingValues)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.45f),
+                        .height(280.dp),
                 ) {
                     SubcomposeAsyncImage(
                         model = ImageRequest.Builder(context)
@@ -135,8 +178,14 @@ fun ShoeScreen(
                         modifier = Modifier
                             .padding(8.dp)
                             .align(Alignment.TopEnd),
-                        onClick = {  },
-                        iconSize = 24
+                        onClick = {
+                            uiState.shoe.let { shoe ->
+                                if (shoe.isFavorite) onEvent(ShoeContract.Event.MarkShoeAsUnFavorite(shoe.id))
+                                else onEvent(ShoeContract.Event.MarkShoeAsFavorite(shoe.id))
+                            }
+                        },
+                        iconSize = 24,
+                        isFavorite = uiState.shoe.isFavorite
                     )
                     LazyRow(
                         modifier = Modifier
@@ -148,24 +197,7 @@ fun ShoeScreen(
                         horizontalArrangement = Arrangement.spacedBy(space = 6.dp)
                     ) {
                         items(uiState.shoe.colors) { color ->
-                            Box(
-                                modifier = Modifier
-                                    .clip(CircleShape)
-                                    .size(25.dp)
-                                    .border(
-                                        width = 0.5.dp,
-                                        color = MaterialTheme.colorScheme.onBackground,
-                                        shape = CircleShape
-                                    )
-                                    .background(
-                                        color = Color(
-                                            android.graphics.Color.parseColor(
-                                                color.hex
-                                            )
-                                        ), shape = CircleShape
-                                    )
-                                    .clickable { }
-                            )
+                            ColorItem(color = color)
                         }
                     }
                 }
@@ -220,7 +252,7 @@ fun ShoeScreen(
                         contentDescription = stringResource(R.string.star)
                     )
                     Text(
-                        text = "4.5",
+                        text = String.format("%.2f", uiState.shoe.getAverageRate()),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold
@@ -229,7 +261,7 @@ fun ShoeScreen(
                         overflow = TextOverflow.Ellipsis,
                     )
                     Text(
-                        text = "(1045 Reviews)",
+                        text = "(${uiState.shoe.getReviewCount()} Reviews)",
                         style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
@@ -246,21 +278,7 @@ fun ShoeScreen(
                     horizontalArrangement = Arrangement.spacedBy(space = 6.dp)
                 ) {
                     items(uiState.shoe.sizes) { size ->
-                        Box(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .size(35.dp)
-                                .border(
-                                    width = 1.dp,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                    shape = CircleShape
-                                )
-                                .background(color = MaterialTheme.colorScheme.background)
-                                .clickable { },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = size.toString())
-                        }
+                        SizeItem(size = size)
                     }
                 }
                 VerticalSpacer(space = 16)
@@ -273,10 +291,30 @@ fun ShoeScreen(
                     text = uiState.shoe.description,
                     style = MaterialTheme.typography.labelMedium
                 )
+                VerticalSpacer(space = 16)
+                Text(
+                    text = stringResource(R.string.reviews, uiState.shoe.getReviewCount()),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                if (uiState.shoe.reviews.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height((uiState.shoe.reviews.size * 108).dp),
+                        contentPadding = PaddingValues( vertical = 24.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(uiState.shoe.reviews) { review ->
+                            ReviewItem(review = review)
+                        }
+                    }
+                }
+
             }
         }
     }
 }
+
 
 
 @Preview

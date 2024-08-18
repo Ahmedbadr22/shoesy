@@ -15,6 +15,8 @@ interface ProductService {
     @GET(API.LIST_SPECIAL_PRODUCT_FOR_YOU_ENDPOINT)
     suspend fun listSpecialForYou(@Header("Authorization") token: String) : Response<List<ShoeDto>>
 
+    @GET(API.LIST_ALL_PRODUCT_ENDPOINT)
+    suspend fun listAll(@Header("Authorization") token: String) : Response<List<ShoeDto>>
 
     @GET(API.LIST_SHOES_BY_BRAND_ID)
     suspend fun listShoesByBrandId(@Path(API.ID_PATH) brandId: Int, @Header("Authorization") token: String) : Response<List<ShoeDto>>

@@ -11,7 +11,6 @@ class FavoriteContract {
     }
 
     sealed class SideEffects: ViewSideEffect {
-
     }
 
     data class State(
