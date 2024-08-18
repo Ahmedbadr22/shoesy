@@ -1,6 +1,7 @@
 package com.ab.data.service
 
 import com.ab.core.constants.API
+import com.ab.data.model.dto.MasterDataDto
 import com.ab.data.model.dto.ShoeDto
 import com.ab.data.model.request.AddFavoriteRequest
 import retrofit2.Response
@@ -12,6 +13,10 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ProductService {
+    @GET(API.GET_MASTER_DATA_ENDPOINT)
+    suspend fun getMasterData(@Header("Authorization") token: String) : Response<MasterDataDto>
+
+
     @GET(API.LIST_SPECIAL_PRODUCT_FOR_YOU_ENDPOINT)
     suspend fun listSpecialForYou(@Header("Authorization") token: String) : Response<List<ShoeDto>>
 

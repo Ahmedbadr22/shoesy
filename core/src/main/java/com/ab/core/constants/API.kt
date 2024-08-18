@@ -12,6 +12,7 @@ object API {
     private const val FAVORITE_APP = "/favorite"
     private const val COLOR_APP = "/color"
     private const val CART_APP = "/cart"
+    private const val MASTER_APP = "/master"
 
     // Path
     const val ID_PATH = "id"
@@ -38,6 +39,9 @@ object API {
     const val LIST_CART_ITEMS_ENDPOINT = "$CART_APP/list"
     const val UPDATE_CART_ITEM_QUANTITY_ENDPOINT = "$CART_APP/update/{$ID_PATH}"
     const val DELETE_CART_ITEM_ENDPOINT = "$CART_APP/delete/{$ID_PATH}"
+
+    // Master
+    const val GET_MASTER_DATA_ENDPOINT = "$MASTER_APP/list-master"
 }
 
 

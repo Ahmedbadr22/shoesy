@@ -1,10 +1,12 @@
 package com.ab.data.source.remote.product
 
+import com.ab.data.model.dto.MasterDataDto
 import com.ab.data.model.dto.ShoeDto
 import com.ab.data.model.request.AddFavoriteRequest
 
 interface ProductRemoteDataSource {
 
+    suspend fun getMasterData(token: String) : MasterDataDto
     suspend fun listSpecialForYou(token: String) : List<ShoeDto>
     suspend fun listAll(token: String) : List<ShoeDto>
     suspend fun listShoesByBrandId(brandId: Int, token: String) : List<ShoeDto>

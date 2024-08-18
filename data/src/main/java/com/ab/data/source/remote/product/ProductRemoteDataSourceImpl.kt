@@ -1,6 +1,7 @@
 package com.ab.data.source.remote.product
 
 import com.ab.core.utils.safeApiCall
+import com.ab.data.model.dto.MasterDataDto
 import com.ab.data.model.dto.ShoeDto
 import com.ab.data.model.request.AddFavoriteRequest
 import com.ab.data.service.ProductService
@@ -10,6 +11,10 @@ import kotlinx.coroutines.withContext
 class ProductRemoteDataSourceImpl(
     private val productService: ProductService
 ) : ProductRemoteDataSource {
+    override suspend fun getMasterData(token: String): MasterDataDto = withContext(Dispatchers.IO) {
+        safeApiCall { productService.getMasterData(token) }
+    }
+
 
     override suspend fun listSpecialForYou(token: String): List<ShoeDto> = safeApiCall {
         withContext(Dispatchers.IO) {

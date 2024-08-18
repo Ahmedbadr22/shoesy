@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
 
+    suspend fun getMasterDataFromRemoteToLocal(token: String)
     suspend fun listAllShoeFromRemoteToLocal(token: String)
     fun listShoesByBrandId(brandId: Int) : Flow<List<Shoe>>
     fun getByIdAsFlow(id: Int) : Flow<Shoe?>
