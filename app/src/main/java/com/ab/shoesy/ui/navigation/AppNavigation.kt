@@ -1,5 +1,7 @@
 package com.ab.shoesy.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -42,7 +44,32 @@ fun AppNavHost(
         startDestination = Screen.SPLASH
     ) {
 
-        composable<Screen.SPLASH> {
+        composable<Screen.SPLASH>(
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            }
+        ) {
             val splashViewModel: SplashViewModel = koinViewModel()
 
             SplashScreen(
@@ -52,7 +79,32 @@ fun AppNavHost(
             )
         }
 
-        composable<Screen.LOGIN> {
+        composable<Screen.LOGIN>(
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            }
+        ) {
             val loginViewModel: LoginViewModel = koinViewModel()
 
             val uiState: LoginContract.State by loginViewModel.viewState.collectAsStateWithLifecycle()
@@ -79,7 +131,32 @@ fun AppNavHost(
             )
         }
 
-        composable<Screen.Main> {
+        composable<Screen.Main>(
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            }
+        ) {
             val mainViewModel: MainViewModel = koinViewModel()
 
             val uiState by mainViewModel.viewState.collectAsStateWithLifecycle()
@@ -88,7 +165,30 @@ fun AppNavHost(
             )
         }
 
-        composable<Screen.Brand> { backstackEntry ->
+        composable<Screen.Brand>(enterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                animationSpec = tween(700)
+            )
+        },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            }) { backstackEntry ->
             val brand : Screen.Brand = backstackEntry.toRoute()
 
             val brandViewModel: BrandViewModel = koinViewModel()
@@ -106,7 +206,30 @@ fun AppNavHost(
             )
         }
 
-        composable<Screen.Brands> {
+        composable<Screen.Brands>(enterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                animationSpec = tween(700)
+            )
+        },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            }) {
             val brandViewModel: BrandViewModel = koinViewModel()
 
             LaunchedEffect(Unit) {
@@ -121,7 +244,32 @@ fun AppNavHost(
             )
         }
 
-        composable<Screen.ShoeDetail> { backstackEntry ->
+        composable<Screen.ShoeDetail>(
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(700)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(700)
+                )
+            }
+        ) { backstackEntry ->
             val shoeDetail : Screen.ShoeDetail = backstackEntry.toRoute()
 
             val shoeViewModel: ShoeViewModel = koinViewModel()

@@ -12,7 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -127,12 +130,15 @@ fun ReviewItem(
 @Composable
 fun ColorItem(
     modifier: Modifier = Modifier,
-    color: com.ab.domain.model.data.Color
+    color: com.ab.domain.model.data.Color,
+    size: Int = 25,
+    isSelected: Boolean = false,
+    onClick: (() -> Unit)? = null
 ) {
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .size(25.dp)
+            .size(size.dp)
             .border(
                 width = 0.5.dp,
                 color = MaterialTheme.colorScheme.onBackground,
@@ -145,8 +151,20 @@ fun ColorItem(
                     )
                 ), shape = CircleShape
             )
-            .clickable { }
-    )
+            .then(
+                if (onClick != null) Modifier.clickable { onClick() }
+                else Modifier
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        if (isSelected) {
+            Icon(
+                Icons.Outlined.Check,
+                contentDescription = null,
+                tint = Color.Green
+            )
+        }
+    }
 }
 
 

@@ -21,6 +21,7 @@ class HomeViewModel(
 
 
     init {
+        Log.i("AHMED_BADR", "HomeViewModel init: Called")
         viewModelScopeWithHandler.launch {
             launch {
                 listBrandsFromRemoteToLocalUseCase()
@@ -41,7 +42,7 @@ class HomeViewModel(
     private fun markAsFavoriteShoe(shoeId: Int) = viewModelScopeWithHandler.launch {
         markShoeAsFavoriteByIdUseCase(shoeId).collectLatest { resource ->
             resource.handle(
-                onLoading = { isLoading ->  },
+                onLoading = { },
                 onSuccess = { },
                 onError = { throwable ->
                     Log.i(
@@ -56,7 +57,7 @@ class HomeViewModel(
     private fun markAsNotFavoriteShoe(shoeId: Int) = viewModelScopeWithHandler.launch {
         markShoeAsUnFavoriteByIdUseCase(shoeId).collectLatest { resource ->
             resource.handle(
-                onLoading = { isLoading ->  },
+                onLoading = { },
                 onSuccess = { },
                 onError = { throwable ->
                     Log.i(
@@ -80,12 +81,9 @@ class HomeViewModel(
     }
 
     private suspend fun listSpecialShoeForYou() {
+        Log.i("AHMED_BADR", "listSpecialShoeForYou: Called")
         listSpecialShoeForYouUseCase().collectLatest { shoeList ->
             setState { copy(specialForYouShoes = shoeList) }
         }
-    }
-
-    private fun onLoadingStateChange(isLoading: Boolean) {
-        setState { copy(loading = isLoading) }
     }
 }

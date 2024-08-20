@@ -61,6 +61,7 @@ import com.ab.domain.model.data.getReviewCount
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.FavoriteButton
 import com.ab.shoesy.ui.composable.LocalNavController
+import com.ab.shoesy.ui.composable.TitleSection
 import com.ab.shoesy.ui.composable.TopBar
 import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.ShoesyTheme
@@ -130,7 +131,9 @@ fun ShoeScreen(
 
                 Button(
                     modifier = Modifier.height(50.dp),
-                    onClick = {}
+                    onClick = {
+                        showAddToCartBottomSheet = true
+                    }
                 ) {
                     Text(text = stringResource(R.string.add_to_cart))
                 }
@@ -140,11 +143,49 @@ fun ShoeScreen(
 
         if (showAddToCartBottomSheet) {
             ModalBottomSheet(
+                modifier = Modifier.height(400.dp),
                 sheetState = sheetState,
                 onDismissRequest = { showAddToCartBottomSheet = false }
             ) {
-                Column {
-                    Text(text = "")
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(
+                        space = 8.dp
+                    )
+                ) {
+
+                    TitleSection(
+                        title = "Color",
+                        headerModifier = Modifier.padding(horizontal = 24.dp)
+                    ) {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(space = 6.dp),
+                            contentPadding = PaddingValues(start = 24.dp)
+                        ) {
+                            items(uiState.shoe?.colors ?: emptyList()) { color ->
+                                ColorItem(
+                                    size = 40,
+                                    color = color,
+                                    onClick = { onEvent(ShoeContract.Event.SelectShoeColor(color)) },
+                                    isSelected = uiState.selectedColor?.id == color.id
+                                )
+                            }
+                        }
+                    }
+                    TitleSection(
+                        title = "Size",
+                        headerModifier = Modifier.padding(horizontal = 24.dp)
+                    ) {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(space = 6.dp),
+                            contentPadding = PaddingValues(start = 24.dp)
+                        ) {
+                            items(uiState.shoe?.sizes ?: emptyList()) { value ->
+                                SizeItem(size = value)
+                            }
+                        }
+                    }
                 }
             }
         }

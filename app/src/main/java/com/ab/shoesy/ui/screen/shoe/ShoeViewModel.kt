@@ -33,6 +33,10 @@ class ShoeViewModel(
             is ShoeContract.Event.GetShoeById -> getShoeById(event.id)
             is ShoeContract.Event.MarkShoeAsFavorite -> markAsFavoriteShoe(event.shoeId)
             is ShoeContract.Event.MarkShoeAsUnFavorite -> markAsNotFavoriteShoe(event.shoeId)
+            ShoeContract.Event.OnDecShoeQuantity -> {}
+            ShoeContract.Event.OnIncShoeQuantity -> {}
+            is ShoeContract.Event.SelectShoeColor -> {}
+            is ShoeContract.Event.SelectShoeSize -> {}
         }
     }
 
@@ -75,7 +79,7 @@ class ShoeViewModel(
     private fun getShoeById(id: Int) {
         viewModelScopeWithHandler.launch {
             getShoeByIdUseCase(id).collectLatest { shoe ->
-                setState { copy(shoe = shoe) }
+                setState { copy(shoe = shoe?.copy(sizes = shoe.sizes.sorted())) }
             }
         }
     }
