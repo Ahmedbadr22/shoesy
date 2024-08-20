@@ -16,7 +16,7 @@ class ShoeViewModel(
     private val markShoeAsFavoriteByIdUseCase: MarkShoeAsFavoriteByIdUseCase,
     private val markShoeAsUnFavoriteByIdUseCase: MarkShoeAsUnFavoriteByIdUseCase,
     private val getCartItemCountUseCase: GetCartItemCountUseCase
-): BaseViewModel<ShoeContract.Event, ShoeContract.State>() {
+) : BaseViewModel<ShoeContract.Event, ShoeContract.State>() {
 
     init {
         viewModelScope.launch {
@@ -29,14 +29,20 @@ class ShoeViewModel(
     }
 
     override fun handleEvents(event: ShoeContract.Event) {
-        when(event) {
+        when (event) {
             is ShoeContract.Event.GetShoeById -> getShoeById(event.id)
             is ShoeContract.Event.MarkShoeAsFavorite -> markAsFavoriteShoe(event.shoeId)
             is ShoeContract.Event.MarkShoeAsUnFavorite -> markAsNotFavoriteShoe(event.shoeId)
-            ShoeContract.Event.OnDecShoeQuantity -> {}
-            ShoeContract.Event.OnIncShoeQuantity -> {}
-            is ShoeContract.Event.SelectShoeColor -> {}
-            is ShoeContract.Event.SelectShoeSize -> {}
+            is ShoeContract.Event.OnSelectShoeQuantity -> {
+                setState { copy(quantity = event.quantity) }
+            }
+
+            is ShoeContract.Event.SelectShoeColor -> {
+                setState { copy(selectedColor = event.color) }
+            }
+            is ShoeContract.Event.SelectShoeSize -> {
+                setState { copy(selectedSize = event.size) }
+            }
         }
     }
 

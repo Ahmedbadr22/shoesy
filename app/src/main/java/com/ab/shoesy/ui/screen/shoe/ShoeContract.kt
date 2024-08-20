@@ -14,8 +14,8 @@ class ShoeContract {
         data class MarkShoeAsUnFavorite(val shoeId: Int) : Event()
         data class SelectShoeColor(val color: Color): Event()
         data class SelectShoeSize(val size: Int): Event()
-        data object OnIncShoeQuantity: Event()
-        data object OnDecShoeQuantity: Event()
+        data class OnSelectShoeQuantity(val quantity: Int): Event()
+
     }
 
     sealed class SideEffects : ViewSideEffect
@@ -27,5 +27,7 @@ class ShoeContract {
         val selectedColor: Color? = null,
         val selectedSize: Int = 0,
         val quantity: Int = 0
-    ) : ViewState
+    ) : ViewState {
+        fun calculateTotalCost() : Float = shoe?.price?.times(quantity) ?: 0.0f
+    }
 }

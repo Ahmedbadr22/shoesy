@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.CircularProgressIndicator
@@ -169,7 +170,11 @@ fun ColorItem(
 
 
 @Composable
-fun SizeItem(modifier: Modifier = Modifier, size: Int) {
+fun SizeItem(
+    modifier: Modifier = Modifier,
+    size: Int,
+    onClick: ((Int) -> Unit)? = null
+) {
     Box(
         modifier = modifier
             .clip(CircleShape)
@@ -180,9 +185,38 @@ fun SizeItem(modifier: Modifier = Modifier, size: Int) {
                 shape = CircleShape
             )
             .background(color = MaterialTheme.colorScheme.background)
-            .clickable { },
+            .clickable {
+                if (onClick != null) {
+                    onClick(size)
+                }
+            },
         contentAlignment = Alignment.Center
     ) {
         Text(text = "$size")
+    }
+}
+
+@Composable
+fun QuantityItem(
+    modifier: Modifier = Modifier,
+    num: Int,
+    onClick: (Int) -> Unit
+) {
+    val shape = RoundedCornerShape(15)
+
+    Box(
+        modifier = modifier
+            .clip(shape)
+            .size(40.dp)
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.onBackground,
+                shape = shape
+            )
+            .background(color = MaterialTheme.colorScheme.background)
+            .clickable { onClick(num) },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "$num")
     }
 }

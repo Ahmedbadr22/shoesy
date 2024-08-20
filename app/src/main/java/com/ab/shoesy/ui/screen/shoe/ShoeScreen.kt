@@ -26,11 +26,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -77,7 +79,7 @@ fun ShoeScreen(
     val context = LocalContext.current
     val navHostController = LocalNavController.current
 
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     var showAddToCartBottomSheet by remember {
         mutableStateOf(false)
@@ -143,7 +145,8 @@ fun ShoeScreen(
 
         if (showAddToCartBottomSheet) {
             ModalBottomSheet(
-                modifier = Modifier.height(400.dp),
+                modifier = Modifier
+                    .padding(paddingValues),
                 sheetState = sheetState,
                 onDismissRequest = { showAddToCartBottomSheet = false }
             ) {
@@ -156,7 +159,8 @@ fun ShoeScreen(
                 ) {
 
                     TitleSection(
-                        title = "Color",
+                        title = if (uiState.selectedColor != null ) stringResource(R.string.color_value, uiState.selectedColor.name)
+                        else stringResource(id = R.string.color),
                         headerModifier = Modifier.padding(horizontal = 24.dp)
                     ) {
                         LazyRow(
@@ -174,7 +178,8 @@ fun ShoeScreen(
                         }
                     }
                     TitleSection(
-                        title = "Size",
+                        title = if (uiState.selectedSize != 0 ) stringResource(R.string.size_value, uiState.selectedSize.toString())
+                        else stringResource(id = R.string.size),
                         headerModifier = Modifier.padding(horizontal = 24.dp)
                     ) {
                         LazyRow(
@@ -182,9 +187,38 @@ fun ShoeScreen(
                             contentPadding = PaddingValues(start = 24.dp)
                         ) {
                             items(uiState.shoe?.sizes ?: emptyList()) { value ->
-                                SizeItem(size = value)
+                                SizeItem(
+                                    size = value,
+                                    onClick = { size ->
+                                        onEvent(ShoeContract.Event.SelectShoeSize(size))
+                                    }
+                                )
                             }
                         }
+                    }
+                    TitleSection(
+                        title = if (uiState.quantity != 0 ) stringResource(R.string.quantity_value, uiState.quantity.toString())
+                        else stringResource(id = R.string.quantity),
+                        headerModifier = Modifier.padding(horizontal = 24.dp)
+                    ) {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(space = 6.dp),
+                            contentPadding = PaddingValues(start = 24.dp)
+                        ) {
+                            items(uiState.shoe?.quantity ?: 0) { value ->
+                                QuantityItem(num = value.inc(), onClick = { selectedQuantity -> onEvent(ShoeContract.Event.OnSelectShoeQuantity(selectedQuantity))})
+                            }
+                        }
+                    }
+                    VerticalSpacer(space = 8)
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .padding(horizontal = 24.dp),
+                        onClick = {}
+                    ) {
+                        Text(text = "Add to cart '${uiState.calculateTotalCost()}$' ")
                     }
                 }
             }
