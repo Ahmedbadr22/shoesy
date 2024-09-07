@@ -40,4 +40,7 @@
     <string name="color_value">Color (%s)</string>
     <string name="quantity">Quantity</string>
     <string name="quantity_value">Quantity (%s)</string>
+    <string name="select_color_size_quantity_please"><![CDATA[Select Color, Size & Quantity Please]]></string>
+    <string name="item_added_to_cart_successfully">Item added successfully to the cart</string>
+    <string name="fail_to_add_to_cart">Failed to added item to cart!</string>
 </resources>

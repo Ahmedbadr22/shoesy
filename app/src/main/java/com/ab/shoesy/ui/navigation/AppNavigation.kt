@@ -9,6 +9,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,7 +38,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun AppNavHost(
     modifier: Modifier,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    mainScreenNavController: NavHostController,
 ) {
     NavHost(
         modifier = modifier.background(color = MaterialTheme.colorScheme.background),
@@ -161,7 +164,8 @@ fun AppNavHost(
 
             val uiState by mainViewModel.viewState.collectAsStateWithLifecycle()
             MainScreen(
-                uiState = uiState
+                uiState = uiState,
+                mainScreenNavController = mainScreenNavController
             )
         }
 
@@ -282,9 +286,12 @@ fun AppNavHost(
 
             ShoeScreen(
                 uiState = uiState,
+                sideEffects = shoeViewModel.effect,
                 onEvent = shoeViewModel::onEvent
             )
         }
+
+
 
         dialog<Screen.ErrorDialog> { backstackEntry ->
             val dialog : Screen.ErrorDialog = backstackEntry.toRoute()

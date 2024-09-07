@@ -9,7 +9,7 @@ import com.ab.core.constants.DB
 @Entity(tableName = DB.CART_TABLE)
 data class CartEntity(
     @PrimaryKey
-    val id: Int,
+    val id: Int = 0,
     val shoeId: Int,
     val colorId: Int,
     val quantity: Int,

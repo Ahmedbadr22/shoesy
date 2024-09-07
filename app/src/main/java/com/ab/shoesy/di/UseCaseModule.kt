@@ -4,6 +4,7 @@ import com.ab.domain.usecases.auth.GetAccessTokenUseCase
 import com.ab.domain.usecases.auth.IsAuthenticatedUserUseCase
 import com.ab.domain.usecases.auth.LoginUseCase
 import com.ab.domain.usecases.brand.ListBrandsFromRemoteToLocalUseCase
+import com.ab.domain.usecases.cart.AddCartItemUseCase
 import com.ab.domain.usecases.cart.DeleteCartItemByIdUseCase
 import com.ab.domain.usecases.cart.GetCartItemCountUseCase
 import com.ab.domain.usecases.cart.ListCartItemsFlowUseCase
@@ -40,4 +41,5 @@ val useCaseModule = module {
     singleOf(::UpdateCartItemQuantityUseCase)
     singleOf(::DeleteCartItemByIdUseCase)
     singleOf(::GetCartItemCountUseCase)
+    singleOf(::AddCartItemUseCase)
 }

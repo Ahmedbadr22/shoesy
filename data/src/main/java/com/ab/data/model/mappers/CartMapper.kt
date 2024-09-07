@@ -4,8 +4,10 @@ import com.ab.data.model.dto.CartDto
 import com.ab.data.model.entity.CartEntity
 import com.ab.data.model.entity.CartItemWithShoeAndColor
 import com.ab.data.model.request.CartItemQuantityRequest
+import com.ab.data.model.request.CartItemRequest
 import com.ab.domain.model.data.CartItem
 import com.ab.domain.model.data.CartItemQuantity
+import com.ab.domain.model.data.CartOrderItem
 
 fun  CartDto.toEntity() = CartEntity(id, shoe, color, quantity, size)
 fun  List<CartDto>.toEntities() = map(CartDto::toEntity)
@@ -26,3 +28,7 @@ fun  List<CartItemWithShoeAndColor>.toDomain() = map(CartItemWithShoeAndColor::t
 
 
 fun CartItemQuantity.toRequest() = CartItemQuantityRequest(shoe, quantity)
+
+
+fun CartOrderItem.toRequest() = CartItemRequest(shoeId, quantity, size, colorId)
+fun CartOrderItem.toEntity() = CartEntity(shoeId = shoeId, quantity =  quantity, size =  size, colorId =  colorId)

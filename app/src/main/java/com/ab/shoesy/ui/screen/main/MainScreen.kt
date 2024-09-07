@@ -14,14 +14,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ab.shoesy.ui.screen.main.navigation.MainBottomTabs
@@ -31,13 +32,17 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    uiState: MainContract.State
+    uiState: MainContract.State,
+    mainScreenNavController: NavHostController
 ) {
 
-    val navHostController = rememberNavController()
-
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    var lastTab: MainBottomTabs by remember {
+        mutableStateOf(MainBottomTabs.Home)
+    }
+    val navBackStackEntry by mainScreenNavController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+
 
     Scaffold(
         bottomBar = {
@@ -53,11 +58,11 @@ fun MainScreen(
                     },
                     selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Home.route } == true,
                     onClick = {
-                        navHostController.navigate(MainBottomTabs.Home.route) {
-                            popUpTo(navHostController.graph.findStartDestination().route.orEmpty()) {
-                                saveState = true
+                        mainScreenNavController.navigate(MainBottomTabs.Home.route) {
+                            popUpTo(lastTab.route) {
                                 inclusive = true
                             }
+                            lastTab = MainBottomTabs.Home
                         }
                     },
                 )
@@ -85,10 +90,11 @@ fun MainScreen(
                     },
                     selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Favorite.route } == true,
                     onClick = {
-                        navHostController.navigate(MainBottomTabs.Favorite.route) {
-                            popUpTo(navHostController.graph.findStartDestination().route.orEmpty()) {
+                        mainScreenNavController.navigate(MainBottomTabs.Favorite.route) {
+                            popUpTo(lastTab.route) {
                                 inclusive = true
                             }
+                            lastTab = MainBottomTabs.Favorite
                         }
                     },
                 )
@@ -118,10 +124,11 @@ fun MainScreen(
                     },
                     selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Cart.route } == true,
                     onClick = {
-                        navHostController.navigate(MainBottomTabs.Cart.route) {
-                            popUpTo(navHostController.graph.findStartDestination().route.orEmpty()) {
+                        mainScreenNavController.navigate(MainBottomTabs.Cart.route) {
+                            popUpTo(lastTab.route) {
                                 inclusive = true
                             }
+                            lastTab = MainBottomTabs.Cart
                         }
                     }
                 )
@@ -139,7 +146,7 @@ fun MainScreen(
         }
     ) { paddingValues ->
         MainNavHost(
-            navHostController = navHostController,
+            navHostController = mainScreenNavController,
             paddingValues = paddingValues,
         )
     }
@@ -150,7 +157,8 @@ fun MainScreen(
 private fun MainScreenPreview() {
     ShoesyTheme {
         MainScreen(
-            uiState = MainContract.State()
+            uiState = MainContract.State(),
+            mainScreenNavController = rememberNavController()
         )
     }
 }

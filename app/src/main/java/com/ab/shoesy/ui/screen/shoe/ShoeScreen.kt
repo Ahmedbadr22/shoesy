@@ -2,6 +2,7 @@ package com.ab.shoesy.ui.screen.shoe
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,17 +27,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,6 +58,7 @@ import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import com.ab.core.base.ViewSideEffect
 import com.ab.domain.model.data.getAverageRate
 import com.ab.domain.model.data.getReviewCount
 import com.ab.shoesy.R
@@ -68,12 +69,16 @@ import com.ab.shoesy.ui.composable.TopBar
 import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.ShoesyTheme
 import com.ab.shoesy.ui.theme.grayColor
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emptyFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("DefaultLocale")
 @Composable
 fun ShoeScreen(
     uiState: ShoeContract.State,
+    sideEffects: Flow<ViewSideEffect>,
     onEvent: (ShoeContract.Event) -> Unit
 ) {
     val context = LocalContext.current
@@ -83,6 +88,35 @@ fun ShoeScreen(
 
     var showAddToCartBottomSheet by remember {
         mutableStateOf(false)
+    }
+
+    LaunchedEffect(Unit) {
+        sideEffects.collectLatest { effect ->
+            when(effect) {
+                ShoeContract.SideEffects.NotValidOrderData -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.select_color_size_quantity_please),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                ShoeContract.SideEffects.SuccessCartOrderItem -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.item_added_to_cart_successfully),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    sheetState.hide()
+                }
+                ShoeContract.SideEffects.FailedCartOrderItem -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.fail_to_add_to_cart),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -216,7 +250,9 @@ fun ShoeScreen(
                             .fillMaxWidth()
                             .height(50.dp)
                             .padding(horizontal = 24.dp),
-                        onClick = {}
+                        onClick = {
+                            onEvent(ShoeContract.Event.OnAddToCartClick)
+                        }
                     ) {
                         Text(text = "Add to cart '${uiState.calculateTotalCost()}$' ")
                     }
@@ -398,6 +434,7 @@ private fun ShoeScreenLightPreview() {
     ShoesyTheme {
         ShoeScreen(
             uiState = ShoeContract.State(),
+            sideEffects = emptyFlow(),
             onEvent = {}
         )
     }
@@ -410,6 +447,7 @@ private fun ShoeScreenDarkPreview() {
     ShoesyTheme {
         ShoeScreen(
             uiState = ShoeContract.State(),
+            sideEffects = emptyFlow(),
             onEvent = {}
         )
     }

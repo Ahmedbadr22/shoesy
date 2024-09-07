@@ -25,12 +25,14 @@ import com.ab.shoesy.ui.theme.ShoesyTheme
         )
         setContent {
             val navHostController = rememberNavController()
+            val mainScreenNavController = rememberNavController()
 
             ShoesyTheme {
                 CompositionLocalProvider(LocalNavController provides navHostController) {
                     AppNavHost(
                         modifier = Modifier.fillMaxSize(),
-                        navHostController = navHostController
+                        navHostController = navHostController,
+                        mainScreenNavController = mainScreenNavController
                     )
                 }
             }

@@ -137,7 +137,7 @@ fun CartItem(
             Text(
                 text = cartItem.shoeName,
                 style = MaterialTheme.typography.titleLarge,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(

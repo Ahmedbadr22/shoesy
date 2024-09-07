@@ -15,14 +15,24 @@ import retrofit2.http.Path
 
 interface CartService {
     @POST(API.POST_CART_ITEM_ENDPOINT)
-    suspend fun postItem(@Header("Authorization") token: String, @Body cartItemRequest: CartItemRequest): Response<Void>
+    suspend fun postItem(
+        @Header("Authorization") token: String,
+        @Body cartItemRequest: CartItemRequest
+    ): Response<Void?>
 
     @GET(API.LIST_CART_ITEMS_ENDPOINT)
-    suspend fun list(@Header("Authorization") token: String) : Response<List<CartDto>>
+    suspend fun list(@Header("Authorization") token: String): Response<List<CartDto>>
 
     @PUT(API.UPDATE_CART_ITEM_QUANTITY_ENDPOINT)
-    suspend fun updateQuantity(@Header("Authorization") token: String, @Path(API.ID_PATH) cartItemId: Int, @Body cartItemQuantityRequest: CartItemQuantityRequest): Response<Void?>
+    suspend fun updateQuantity(
+        @Header("Authorization") token: String,
+        @Path(API.ID_PATH) cartItemId: Int,
+        @Body cartItemQuantityRequest: CartItemQuantityRequest
+    ): Response<Void?>
 
     @DELETE(API.DELETE_CART_ITEM_ENDPOINT)
-    suspend fun delete(@Header("Authorization") token: String, @Path(API.ID_PATH) cartItemId: Int): Response<Void?>
+    suspend fun delete(
+        @Header("Authorization") token: String,
+        @Path(API.ID_PATH) cartItemId: Int
+    ): Response<Void?>
 }

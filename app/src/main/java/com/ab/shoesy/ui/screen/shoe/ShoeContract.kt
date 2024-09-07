@@ -12,16 +12,22 @@ class ShoeContract {
         data class GetShoeById(val id: Int) : Event()
         data class MarkShoeAsFavorite(val shoeId: Int) : Event()
         data class MarkShoeAsUnFavorite(val shoeId: Int) : Event()
+        data object OnAddToCartClick: Event()
         data class SelectShoeColor(val color: Color): Event()
         data class SelectShoeSize(val size: Int): Event()
         data class OnSelectShoeQuantity(val quantity: Int): Event()
 
     }
 
-    sealed class SideEffects : ViewSideEffect
+    sealed class SideEffects : ViewSideEffect {
+        data object NotValidOrderData: SideEffects()
+        data object SuccessCartOrderItem: SideEffects()
+        data object FailedCartOrderItem: SideEffects()
+    }
 
     data class State(
         override val loading: Boolean = false,
+        val loadingOrderProcess: Boolean = false,
         val cartItemsCount: Int = 0,
         val shoe: Shoe? = null,
         val selectedColor: Color? = null,

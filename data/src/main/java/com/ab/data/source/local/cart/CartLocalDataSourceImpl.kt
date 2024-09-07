@@ -17,6 +17,12 @@ class CartLocalDataSourceImpl(
         }
     }
 
+    override suspend fun insert(cartEntity: CartEntity) {
+        withContext(Dispatchers.IO) {
+            cartDao.insert(cartEntity)
+        }
+    }
+
     override fun listAsFlow(): Flow<List<CartItemWithShoeAndColor>> = cartDao.listAllAsFlow()
 
     override suspend fun updateQuantityById(id: Int, quantity: Int) {
