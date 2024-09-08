@@ -105,5 +105,7 @@ dependencies {
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.foundation.layout)
 
+    implementation(libs.compose.shimmer)
+
 }
 

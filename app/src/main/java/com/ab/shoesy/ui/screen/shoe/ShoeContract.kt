@@ -23,6 +23,7 @@ class ShoeContract {
         data object NotValidOrderData: SideEffects()
         data object SuccessCartOrderItem: SideEffects()
         data object FailedCartOrderItem: SideEffects()
+        data class ShowErrorMsg(val msg: String): SideEffects()
     }
 
     data class State(

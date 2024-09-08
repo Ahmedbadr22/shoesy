@@ -9,6 +9,8 @@ import com.ab.domain.usecases.product.ListSpecialShoeForYouUseCase
 import com.ab.domain.usecases.product.MarkShoeAsFavoriteByIdUseCase
 import com.ab.domain.usecases.product.MarkShoeAsUnFavoriteByIdUseCase
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -21,16 +23,17 @@ class HomeViewModel(
 
 
     init {
-        Log.i("AHMED_BADR", "HomeViewModel init: Called")
         viewModelScopeWithHandler.launch {
             launch {
                 listBrandsFromRemoteToLocalUseCase()
             }
 
             launch {
-                brandRepository.brandsFlow.collectLatest { brands ->
-                    setState { copy(brands = brands) }
-                }
+                brandRepository.brandsFlow
+                    .onStart { setState { copy(loading = true) } }
+                    .collectLatest { brands ->
+                        setState { copy(brands = brands, loading = false) }
+                    }
             }
 
             launch {
@@ -81,9 +84,10 @@ class HomeViewModel(
     }
 
     private suspend fun listSpecialShoeForYou() {
-        Log.i("AHMED_BADR", "listSpecialShoeForYou: Called")
-        listSpecialShoeForYouUseCase().collectLatest { shoeList ->
-            setState { copy(specialForYouShoes = shoeList) }
+        listSpecialShoeForYouUseCase()
+            .onStart { setState { copy(specialForYouLoading = true) } }
+            .collectLatest { shoeList ->
+            setState { copy(specialForYouShoes = shoeList, specialForYouLoading = false) }
         }
     }
 }

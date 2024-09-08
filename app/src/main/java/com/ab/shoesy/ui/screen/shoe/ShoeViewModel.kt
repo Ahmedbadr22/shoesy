@@ -102,27 +102,31 @@ class ShoeViewModel(
                 setEffect { ShoeContract.SideEffects.NotValidOrderData }
             }
         } else {
-            val order = CartOrderItem(
-                shoeId = viewState.value.shoe?.id ?: 0,
-                size = viewState.value.selectedSize,
-                colorId = viewState.value.selectedColor!!.id,
-                quantity = viewState.value.quantity
-            )
-            viewModelScope.launch {
-                addCartItemUseCase(order).collectLatest { resource ->
-                    resource.handle(
-                        onLoading = { isLoading ->
-                            setState { copy(loadingOrderProcess=isLoading) }
-                        },
-                        onSuccess = {
-                            launch { setEffect { ShoeContract.SideEffects.SuccessCartOrderItem } }
-                        },
-                        onError = {
-                            launch { setEffect { ShoeContract.SideEffects.FailedCartOrderItem } }
-                        }
-                    )
+
+            viewState.value.shoe?.let { shoe ->
+                val order = CartOrderItem(
+                    shoeId = shoe.id,
+                    size = viewState.value.selectedSize,
+                    colorId = viewState.value.selectedColor!!.id,
+                    quantity = viewState.value.quantity
+                )
+                launchCoroutine {
+                    addCartItemUseCase(order).collectLatest { resource ->
+                        resource.handle(
+                            onLoading = { isLoading ->
+                                setState { copy(loadingOrderProcess=isLoading) }
+                            },
+                            onSuccess = {
+                                launch { setEffect { ShoeContract.SideEffects.SuccessCartOrderItem } }
+                            },
+                            onError = {
+                                launch { setEffect { ShoeContract.SideEffects.FailedCartOrderItem } }
+                            }
+                        )
+                    }
                 }
-            }
+            } ?: launchCoroutine { setEffect { ShoeContract.SideEffects.ShowErrorMsg("Something wont wrong..try again") } }
+
         }
     }
 }

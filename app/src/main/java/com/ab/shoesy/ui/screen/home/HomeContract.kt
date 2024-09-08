@@ -17,6 +17,7 @@ class HomeContract {
 
     data class State(
         override val loading: Boolean = false,
+        val specialForYouLoading: Boolean = false,
         val brands: List<Brand> = emptyList(),
         val specialForYouShoes: List<Shoe> = emptyList()
     ) : ViewState

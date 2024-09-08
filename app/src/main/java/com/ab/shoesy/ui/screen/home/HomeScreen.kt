@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,9 +25,11 @@ import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.SearchButton
 import com.ab.shoesy.ui.composable.TitleSection
 import com.ab.shoesy.ui.composable.BrandItem
+import com.ab.shoesy.ui.composable.BrandShimmerItem
 import com.ab.shoesy.ui.composable.LocalNavController
 import com.ab.shoesy.ui.composable.ShoeHorizontalShoeItem
 import com.ab.shoesy.ui.composable.ShoeItem
+import com.ab.shoesy.ui.composable.ShoeShimmerItem
 import com.ab.shoesy.ui.navigation.Screen
 import com.ab.shoesy.ui.navigation.toRoute
 import com.ab.shoesy.ui.theme.ShoesyTheme
@@ -62,16 +65,27 @@ fun HomeScreen(
                     navHostController.navigate(Screen.Brands)
                 }
             ) {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 24.dp)
-                ) {
-                    items(uiState.brands) { brand ->
-                        BrandItem(
-                            brand = brand,
-                            onClick = {
-                                navHostController.navigate(brand.toRoute())
-                            }
-                        )
+
+                if (uiState.loading) {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 24.dp)
+                    ) {
+                        items(5) {
+                            BrandShimmerItem()
+                        }
+                    }
+                } else {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 24.dp)
+                    ) {
+                        items(uiState.brands) { brand ->
+                            BrandItem(
+                                brand = brand,
+                                onClick = {
+                                    navHostController.navigate(brand.toRoute())
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -80,21 +94,32 @@ fun HomeScreen(
                 headerModifier = Modifier.padding(horizontal = 24.dp),
                 title = stringResource(R.string.special_for_you),
             ) {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(2.dp)
-                ) {
-                    items(uiState.specialForYouShoes) { shoe ->
-                        ShoeItem(
-                            shoe = shoe,
-                            onClick = {
-                                navHostController.navigate(Screen.ShoeDetail(shoe.id))
-                            },
-                            onFavoriteClick = {
-                                if (shoe.isFavorite) onEvent(HomeContract.Event.MarkSpecialForYouShoeAsUnFavorite(shoe.id))
-                                else onEvent(HomeContract.Event.MarkSpecialForYouShoeAsFavorite(shoe.id))
-                            }
-                        )
+                if (!uiState.specialForYouLoading) {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        items(uiState.specialForYouShoes) { shoe ->
+                            ShoeItem(
+                                shoe = shoe,
+                                onClick = {
+                                    navHostController.navigate(Screen.ShoeDetail(shoe.id))
+                                },
+                                onFavoriteClick = {
+                                    if (shoe.isFavorite) onEvent(HomeContract.Event.MarkSpecialForYouShoeAsUnFavorite(shoe.id))
+                                    else onEvent(HomeContract.Event.MarkSpecialForYouShoeAsFavorite(shoe.id))
+                                }
+                            )
+                        }
+                    }
+                } else {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        items(2) {
+                            ShoeShimmerItem()
+                        }
                     }
                 }
             }

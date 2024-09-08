@@ -18,7 +18,7 @@ interface CartService {
     suspend fun postItem(
         @Header("Authorization") token: String,
         @Body cartItemRequest: CartItemRequest
-    ): Response<Void?>
+    ): Response<CartDto>
 
     @GET(API.LIST_CART_ITEMS_ENDPOINT)
     suspend fun list(@Header("Authorization") token: String): Response<List<CartDto>>

@@ -31,4 +31,4 @@ fun CartItemQuantity.toRequest() = CartItemQuantityRequest(shoe, quantity)
 
 
 fun CartOrderItem.toRequest() = CartItemRequest(shoeId, quantity, size, colorId)
-fun CartOrderItem.toEntity() = CartEntity(shoeId = shoeId, quantity =  quantity, size =  size, colorId =  colorId)
+fun CartOrderItem.toEntity(cartItemId: Int) = CartEntity(id = cartItemId, shoeId = shoeId, quantity =  quantity, size =  size, colorId =  colorId)

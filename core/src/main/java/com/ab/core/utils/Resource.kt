@@ -25,12 +25,12 @@ sealed class Resource<out T>() {
     }
 }
 
-sealed class ValidationResource() {
+sealed class ValidationResource {
     data object Valid : ValidationResource()
     data class NotValid(@StringRes val stringResIdMessage: Int) : ValidationResource()
 }
 
-fun <T>Resource<T>.handle(
+inline fun <T>Resource<T>.handle(
     onLoading : (Boolean) -> Unit,
     onSuccess : (T) -> Unit,
     onError: (Throwable) -> Unit

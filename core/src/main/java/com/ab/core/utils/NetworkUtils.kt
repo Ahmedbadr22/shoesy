@@ -50,15 +50,9 @@ object NetworkUtils {
 inline fun <reified T> safeApiCall(apiCall: () -> Response<T>): T {
     val apiResponse = apiCall.invoke() as Response<*>
     return when (apiResponse.code()) {
-        201,
-        200 -> {
+
+        in 200..204 -> {
             apiResponse.body() as T
-        }
-        204 -> {
-            throw NetworkRequestException(
-                R.string.no_content_found_please_try_again_later,
-                apiResponse.code()
-            )
         }
         400 -> {
             throw NetworkRequestException(R.string.bad_request_try_again, apiResponse.code())

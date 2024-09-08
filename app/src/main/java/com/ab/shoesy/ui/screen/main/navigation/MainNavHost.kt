@@ -52,6 +52,7 @@ fun MainNavHost(
             val uiState by cartViewModel.viewState.collectAsStateWithLifecycle()
 
             CartScreen(
+                mainScreenPaddingValues = paddingValues,
                 uiState = uiState,
                 onEvent = cartViewModel::onEvent
             )

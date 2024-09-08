@@ -20,8 +20,8 @@ class CartRepositoryImpl(
 ): CartRepository {
     override suspend fun createCartItem(token: String, cartOrderItem: CartOrderItem) {
         val cartItemRequest = cartOrderItem.toRequest()
-        cartRemoteDataSource.addItem(token, cartItemRequest)
-        val cartEntity = cartOrderItem.toEntity()
+        val cartItemDto = cartRemoteDataSource.addItem(token, cartItemRequest)
+        val cartEntity = cartOrderItem.toEntity(cartItemDto.id)
         cartLocalDataSource.insert(cartEntity)
     }
 

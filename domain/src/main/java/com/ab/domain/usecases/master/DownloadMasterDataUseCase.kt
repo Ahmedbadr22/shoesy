@@ -1,6 +1,5 @@
 package com.ab.domain.usecases.master
 
-import android.util.Log
 import com.ab.core.base.BaseSuspendOUseCase
 import com.ab.core.utils.Resource
 import com.ab.domain.repository.ProductRepository
@@ -22,7 +21,6 @@ class DownloadMasterDataUseCase(
         }
         emit(Resource.Success(Unit))
     }.catch { throwable ->
-        Log.i("AHMED_BADR", "invoke: DownloadMasterDataUseCase is = $throwable")
         emit(Resource.Error(throwable))
     }
 }

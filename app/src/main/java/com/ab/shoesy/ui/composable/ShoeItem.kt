@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -40,6 +43,7 @@ import com.ab.domain.model.data.getAverageRate
 import com.ab.domain.model.data.getReviewCount
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.theme.grayColor
+import com.valentinilk.shimmer.shimmer
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -78,7 +82,15 @@ fun ShoeItem(
                     .clip(RoundedCornerShape(10))
                     .background(color = grayColor)
                     .padding(8.dp),
-                contentDescription = shoe.name
+                contentDescription = shoe.name,
+                loading = {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "Loading..")
+                    }
+                }
             )
 
             Row(
@@ -159,6 +171,53 @@ fun ShoeItem(
             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
+        )
+    }
+}
+
+@Composable
+fun ShoeShimmerItem(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .width(160.dp)
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .size(150.dp)
+                .shimmer()
+                .clip(RoundedCornerShape(10))
+                .background(color = Color.Gray)
+                .background(color = grayColor)
+                .padding(8.dp),
+        )
+        VerticalSpacer(space = 8)
+        Box(
+            modifier = Modifier
+                .width(60.dp)
+                .height(10.dp)
+                .shimmer()
+                .clip(RoundedCornerShape(15))
+                .background(color = Color.Gray)
+        )
+        Box(
+            modifier = Modifier
+                .width(90.dp)
+                .height(10.dp)
+                .shimmer()
+                .clip(RoundedCornerShape(15))
+                .background(color = Color.Gray)
+        )
+        Box(
+            modifier = Modifier
+                .width(50.dp)
+                .height(10.dp)
+                .shimmer()
+                .clip(RoundedCornerShape(15))
+                .background(color = Color.Gray)
         )
     }
 }

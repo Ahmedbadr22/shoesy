@@ -5,19 +5,23 @@ import com.ab.data.model.dto.CartDto
 import com.ab.data.model.request.CartItemQuantityRequest
 import com.ab.data.model.request.CartItemRequest
 import com.ab.data.service.CartService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class CartRemoteDataSourceImpl(
     private val cartService: CartService
 ): CartRemoteDataSource {
 
-    override suspend fun addItem(token: String, cartItemRequest: CartItemRequest) {
+    override suspend fun addItem(token: String, cartItemRequest: CartItemRequest) : CartDto = withContext(Dispatchers.IO) {
         safeApiCall {
             cartService.postItem(token, cartItemRequest)
         }
     }
 
-    override suspend fun listItems(token: String): List<CartDto> = safeApiCall {
-        cartService.list(token)
+    override suspend fun listItems(token: String): List<CartDto> = withContext(Dispatchers.IO) {
+        safeApiCall {
+            cartService.list(token)
+        }
     }
 
     override suspend fun updateItemQuantity(
@@ -25,14 +29,18 @@ class CartRemoteDataSourceImpl(
         token: String,
         cartItemQuantityRequest: CartItemQuantityRequest
     ) {
-        safeApiCall {
-            cartService.updateQuantity(token, cartItemId, cartItemQuantityRequest)
+        withContext(Dispatchers.IO) {
+            safeApiCall {
+                cartService.updateQuantity(token, cartItemId, cartItemQuantityRequest)
+            }
         }
     }
 
     override suspend fun deleteItem(cartItemId: Int, token: String) {
-        safeApiCall {
-            cartService.delete(token, cartItemId)
+        withContext(Dispatchers.IO) {
+            safeApiCall {
+                cartService.delete(token, cartItemId)
+            }
         }
     }
 }

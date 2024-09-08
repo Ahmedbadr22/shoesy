@@ -21,7 +21,7 @@ class DeleteCartItemByIdUseCase(
         cartRepository.deleteById(token, input)
         emit(Resource.Success(Unit))
     }.catch { throwable ->
-        Log.i("AHMED_BADR", "invoke: Update Quantity Error = $throwable")
+        Log.i("AHMED_BADR", "invoke: Delete Quantity Error = $throwable")
         emit(Resource.Error(throwable))
     }
 }
