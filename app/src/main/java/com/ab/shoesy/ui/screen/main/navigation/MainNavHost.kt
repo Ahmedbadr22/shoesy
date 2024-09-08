@@ -14,6 +14,7 @@ import com.ab.shoesy.ui.screen.favorite.FavoriteViewModel
 import com.ab.shoesy.ui.screen.home.HomeContract
 import com.ab.shoesy.ui.screen.home.HomeScreen
 import com.ab.shoesy.ui.screen.home.HomeViewModel
+import com.ab.shoesy.ui.screen.profile.ProfileScreen
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -56,6 +57,10 @@ fun MainNavHost(
                 uiState = uiState,
                 onEvent = cartViewModel::onEvent
             )
+        }
+
+        composable(route = MainBottomTabs.Profile.route) { 
+            ProfileScreen(mainTabsPaddingValues = paddingValues)
         }
     }
 }

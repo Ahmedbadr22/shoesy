@@ -18,5 +18,5 @@ sealed class MainBottomTabs(
     data object Favorite : MainBottomTabs(iconRes = R.drawable.favorite, route = "favorite")
 
     @Serializable
-    data object Account : MainBottomTabs(iconRes = R.drawable.user, route = "account")
+    data object Profile : MainBottomTabs(iconRes = R.drawable.user, route = "profile")
 }

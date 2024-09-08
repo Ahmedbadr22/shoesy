@@ -44,4 +44,5 @@
     <string name="item_added_to_cart_successfully">Item added successfully to the cart</string>
     <string name="fail_to_add_to_cart">Failed to added item to cart!</string>
     <string name="checkout">Checkout</string>
+    <string name="profile">Profile</string>
 </resources>

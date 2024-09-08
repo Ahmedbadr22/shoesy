@@ -135,12 +135,19 @@ fun MainScreen(
                 NavigationBarItem(
                     icon = {
                         Icon(
-                            painter = painterResource(id = MainBottomTabs.Account.iconRes),
-                            contentDescription = MainBottomTabs.Account.route
+                            painter = painterResource(id = MainBottomTabs.Profile.iconRes),
+                            contentDescription = MainBottomTabs.Profile.route
                         )
                     },
-                    selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Account.route } == true,
-                    onClick = {}
+                    selected = currentDestination?.hierarchy?.any { it.route == MainBottomTabs.Profile.route } == true,
+                    onClick = {
+                        mainScreenNavController.navigate(MainBottomTabs.Profile.route) {
+                            popUpTo(lastTab.route) {
+                                inclusive = true
+                            }
+                            lastTab = MainBottomTabs.Profile
+                        }
+                    }
                 )
             }
         }
