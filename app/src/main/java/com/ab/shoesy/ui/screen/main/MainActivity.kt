@@ -1,45 +1,39 @@
-package com.ab.shoesy.ui.screen.auth
+    package com.ab.shoesy.ui.screen.main
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.ab.shoesy.ui.screen.main.MainActivity
-import com.ab.shoesy.ui.screen.auth.navigation.AuthNavHost
+import com.ab.shoesy.ui.composable.LocalNavController
+import com.ab.shoesy.ui.screen.main.navigation.MainNavHost
 import com.ab.shoesy.ui.theme.ShoesyTheme
 
-class AuthActivity : ComponentActivity() {
-
+    class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         enableEdgeToEdge(
             navigationBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT,
                 Color.TRANSPARENT
             )
         )
-
         setContent {
             val navHostController = rememberNavController()
 
             ShoesyTheme {
-                AuthNavHost(
-                    navHostController = navHostController,
-                    onNavigateToMainActivity = ::navigateToMainActivity
-                )
+                CompositionLocalProvider(LocalNavController provides navHostController) {
+                    MainNavHost(
+                        modifier = Modifier.fillMaxSize(),
+                        navHostController = navHostController,
+                    )
+                }
             }
         }
-    }
-
-
-    private fun navigateToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 }
