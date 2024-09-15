@@ -21,10 +21,13 @@ class BrandViewModel(
         return BrandContract.State()
     }
 
+    init {
+        listBrands()
+    }
+
     override fun handleEvents(event: BrandContract.Event) {
         when (event) {
             is BrandContract.Event.ListShoesByBrandId -> listShoesByBrandId(event.brandId)
-            BrandContract.Event.ListBrands -> listBrands()
             is BrandContract.Event.MarkShoeAsFavorite -> markAsFavoriteShoe(event.shoeId)
             is BrandContract.Event.MarkShoeAsUnFavorite -> markAsNotFavoriteShoe(event.shoeId)
         }

@@ -44,7 +44,7 @@ fun BrandsScreen(
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
-                onBackArrowPress = dropUnlessResumed(block = navHostController::popBackStack)
+                onBackArrowPress = navHostController::navigateUp
             )
         }
     ) { paddingValues ->

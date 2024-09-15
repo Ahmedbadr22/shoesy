@@ -66,11 +66,13 @@ import com.ab.domain.model.data.getAverageRate
 import com.ab.domain.model.data.getReviewCount
 import com.ab.domain.model.data.getTotalPrice
 import com.ab.shoesy.R
+import com.ab.shoesy.ui.composable.BadgeButton
 import com.ab.shoesy.ui.composable.FavoriteButton
 import com.ab.shoesy.ui.composable.LocalNavController
 import com.ab.shoesy.ui.composable.TitleSection
 import com.ab.shoesy.ui.composable.TopBar
 import com.ab.shoesy.ui.composable.VerticalSpacer
+import com.ab.shoesy.ui.screen.main.navigation.Screen
 import com.ab.shoesy.ui.theme.ShoesyTheme
 import com.ab.shoesy.ui.theme.grayColor
 import kotlinx.coroutines.flow.Flow
@@ -132,24 +134,11 @@ fun ShoeScreen(
             TopBar(
                 onBackArrowPress = dropUnlessResumed(block = navHostController::popBackStack),
                 actions = {
-                    Box(
-                        modifier = Modifier.wrapContentSize(),
-                        contentAlignment = Alignment.TopEnd
-                    ) {
-                        IconButton(
-                            onClick = {
-
-                            }
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.bag),
-                                contentDescription = stringResource(R.string.cart)
-                            )
-                        }
-                        Badge {
-                            Text(text = uiState.cartItemsCount.toString())
-                        }
-                    }
+                    BadgeButton(
+                        iconPainter = painterResource(id = R.drawable.bag),
+                        onClick = { navHostController.navigate(Screen.Cart) },
+                        count = uiState.cartItemsCount
+                    )
                 }
             )
         },
@@ -233,13 +222,23 @@ fun ShoeScreen(
                             text = "(${uiState.cartItem.quantity})",
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                         )
-                        OutlinedButton(
-                            onClick = {
-                                onEvent(ShoeContract.Event.IncreaseCartItem)
-                            },
-                            shape = RoundedCornerShape(topEnd = 50f, bottomEnd = 50f)
-                        ) {
-                            Text(text = "+")
+                        if (uiState.cartItem.quantity == uiState.shoe?.quantity) {
+                            OutlinedButton(
+                                enabled = false,
+                                onClick = {},
+                                shape = RoundedCornerShape(topEnd = 50f, bottomEnd = 50f)
+                            ) {
+                                Text(text = "+")
+                            }
+                        } else {
+                            OutlinedButton(
+                                onClick = {
+                                    onEvent(ShoeContract.Event.IncreaseCartItem)
+                                },
+                                shape = RoundedCornerShape(topEnd = 50f, bottomEnd = 50f)
+                            ) {
+                                Text(text = "+")
+                            }
                         }
                     }
                 }

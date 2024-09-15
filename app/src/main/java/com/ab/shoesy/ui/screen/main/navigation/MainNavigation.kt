@@ -104,6 +104,17 @@ fun MainNavHost(
             )
         }
 
+        animatedComposable<Screen.Brands> {
+            val brandViewModel: BrandViewModel = koinViewModel()
+
+            val uiState: BrandContract.State by brandViewModel.viewState.collectAsStateWithLifecycle()
+
+            BrandsScreen(
+                uiState = uiState,
+                onEvent = brandViewModel::onEvent
+            )
+        }
+
 
         animatedComposable<Screen.ShoeDetail> { backstackEntry ->
             val shoeDetail: Screen.ShoeDetail = backstackEntry.toRoute()
