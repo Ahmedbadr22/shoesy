@@ -1,6 +1,7 @@
-package com.ab.shoesy.ui.screen.create_account
+package com.ab.shoesy.ui.screen.auth.screen.login
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,17 +15,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.dropUnlessResumed
+import com.ab.core.base.ViewSideEffect
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.FacebookOutlinedButton
 import com.ab.shoesy.ui.composable.GoogleOutlinedButton
@@ -32,21 +30,27 @@ import com.ab.shoesy.ui.composable.PasswordRoundedOutlinedTextField
 import com.ab.shoesy.ui.composable.RoundedOutlinedTextField
 import com.ab.shoesy.ui.composable.VerticalSpacer
 import com.ab.shoesy.ui.theme.ShoesyTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
-fun CreateAccountScreen(
-    popBackToLogin: () -> Unit
+fun LoginScreen(
+    uiState: LoginContract.State,
+    onEvent: (LoginContract.Event) -> Unit,
+    sideEffects: Flow<ViewSideEffect>,
+    onNavigateToCreateAccount: () -> Unit,
+    onNavigateToMain: () -> Unit,
+    onShowErrorDialog: (Int) -> Unit
 ) {
-    var showPassword by remember {
-        mutableStateOf(false)
-    }
 
-    var email by remember {
-        mutableStateOf("")
-    }
-
-    var password by remember {
-        mutableStateOf("")
+    LaunchedEffect(Unit) {
+        sideEffects.collectLatest {
+            when(it) {
+                is LoginContract.SideEffects.ShowErrorDialog -> onShowErrorDialog(it.resId)
+                is LoginContract.SideEffects.NavigateToMain -> onNavigateToMain()
+            }
+        }
     }
 
     Scaffold { paddingValues ->
@@ -58,54 +62,46 @@ fun CreateAccountScreen(
                 .padding(top = 32.dp)
         ) {
             Text(
-                text = stringResource(R.string.create_account),
+                text = stringResource(R.string.sign_in),
                 style = MaterialTheme.typography.displaySmall
             )
             Text(
-                text = stringResource(R.string.please_sign_up_to_your_shoesy_account),
+                text = stringResource(R.string.please_sign_in_to_your_shoesy_account),
                 style = MaterialTheme.typography.bodyMedium
             )
             VerticalSpacer(space = 60)
             RoundedOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = email,
-                onChange = { value -> email = value},
-                placeholderText = stringResource(R.string.full_name),
-            )
-            VerticalSpacer(space = 16)
-            RoundedOutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = email,
-                onChange = { value -> email = value},
+                value = uiState.email,
+                onChange = { value -> onEvent(LoginContract.Event.OnEmailChange(value)) },
                 placeholderText = stringResource(R.string.email),
-                keyboardType = KeyboardType.Email
+                keyboardType = KeyboardType.Email,
+                errorMsgResId = uiState.emailErrorResIdMessage
             )
             VerticalSpacer(space = 16)
             PasswordRoundedOutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = password,
-                onChange = { value -> password = value},
+                value = uiState.password,
+                onChange = { value -> onEvent(LoginContract.Event.OnPasswordChange(value)) },
                 placeholderText = stringResource(R.string.password),
-                passwordVisible = showPassword,
-                onChangePasswordVisibility = { show -> showPassword = show }
-            )
-            VerticalSpacer(space = 16)
-            PasswordRoundedOutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = password,
-                onChange = { value -> password = value},
-                placeholderText = stringResource(R.string.confirm_password),
-                passwordVisible = showPassword,
-                onChangePasswordVisibility = { show -> showPassword = show }
+                passwordVisible = uiState.showPassword,
+                errorMsgResId = uiState.passwordErrorResIdMessage,
+                onChangePasswordVisibility = { show -> onEvent(
+                    LoginContract.Event.OnShowPasswordStateChange(
+                        show
+                    )
+                ) }
             )
             VerticalSpacer(weight = 1f)
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                onClick = {}
+                onClick = {
+                    onEvent(LoginContract.Event.OnLogin)
+                }
             ) {
-                Text(text = stringResource(R.string.create_account).uppercase())
+                Text(text = stringResource(R.string.sign_in).uppercase())
             }
             VerticalSpacer(space = 16)
             Row(
@@ -129,15 +125,15 @@ fun CreateAccountScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = stringResource(R.string.have_account),
+                    text = stringResource(R.string.join_with_us),
                     style = MaterialTheme.typography.bodySmall
                 )
                 TextButton(
                     modifier = Modifier
                         .height(50.dp),
-                    onClick = dropUnlessResumed(block = popBackToLogin)
+                    onClick = onNavigateToCreateAccount
                 ) {
-                    Text(text = stringResource(R.string.sign_in))
+                    Text(text = stringResource(R.string.create_account))
                 }
             }
         }
@@ -147,16 +143,30 @@ fun CreateAccountScreen(
 
 @Preview
 @Composable
-private fun CreateAccountScreenLightPreview() {
+private fun LoginScreenLightPreview() {
     ShoesyTheme {
-        CreateAccountScreen(popBackToLogin = {})
+        LoginScreen(
+            uiState = LoginContract.State(),
+            onEvent = {},
+            sideEffects = emptyFlow(),
+            onNavigateToCreateAccount = {},
+            onShowErrorDialog = {},
+            onNavigateToMain = {},
+        )
     }
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun CreateAccountScreenDarkPreview() {
+private fun LoginScreenDarkPreview() {
     ShoesyTheme {
-        CreateAccountScreen(popBackToLogin = {})
+        LoginScreen(
+            uiState = LoginContract.State(),
+            onEvent = {},
+            sideEffects = emptyFlow(),
+            onNavigateToCreateAccount = {},
+            onShowErrorDialog = {},
+            onNavigateToMain = {},
+        )
     }
 }

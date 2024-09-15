@@ -1,4 +1,4 @@
-package com.ab.shoesy.ui.screen.splash
+package com.ab.shoesy.ui.screen.auth.screen.splash
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration

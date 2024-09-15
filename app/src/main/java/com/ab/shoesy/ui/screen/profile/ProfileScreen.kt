@@ -53,7 +53,7 @@ fun ProfileScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .size(110.dp)
+                    .size(100.dp)
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.onBackground,

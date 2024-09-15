@@ -1,4 +1,4 @@
-package com.ab.shoesy.ui.screen.login
+package com.ab.shoesy.ui.screen.auth.screen.login
 
 import com.ab.core.base.BaseViewModel
 import com.ab.core.utils.NetworkRequestException

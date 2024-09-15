@@ -1,4 +1,4 @@
-package com.ab.shoesy.ui.screen.login
+package com.ab.shoesy.ui.screen.auth.screen.login
 
 import com.ab.core.base.ViewEvent
 import com.ab.core.base.ViewSideEffect

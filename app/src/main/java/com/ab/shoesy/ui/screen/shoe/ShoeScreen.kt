@@ -92,7 +92,7 @@ fun ShoeScreen(
 
     LaunchedEffect(Unit) {
         sideEffects.collectLatest { effect ->
-            when(effect) {
+            when (effect) {
                 ShoeContract.SideEffects.NotValidOrderData -> {
                     Toast.makeText(
                         context,
@@ -100,14 +100,18 @@ fun ShoeScreen(
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 ShoeContract.SideEffects.SuccessCartOrderItem -> {
                     Toast.makeText(
                         context,
                         context.getString(R.string.item_added_to_cart_successfully),
                         Toast.LENGTH_SHORT
                     ).show()
+
                     sheetState.hide()
+                    showAddToCartBottomSheet = false
                 }
+
                 ShoeContract.SideEffects.FailedCartOrderItem -> {
                     Toast.makeText(
                         context,
@@ -161,8 +165,14 @@ fun ShoeScreen(
                     modifier = Modifier.fillMaxHeight(),
                     verticalArrangement = Arrangement.SpaceAround
                 ) {
-                    Text(text = stringResource(R.string.price), style = MaterialTheme.typography.bodySmall)
-                    Text(text = "$${uiState.shoe?.price}", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
+                    Text(
+                        text = stringResource(R.string.price),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Text(
+                        text = "$${uiState.shoe?.price}",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    )
                 }
 
                 Button(
@@ -193,7 +203,10 @@ fun ShoeScreen(
                 ) {
 
                     TitleSection(
-                        title = if (uiState.selectedColor != null ) stringResource(R.string.color_value, uiState.selectedColor.name)
+                        title = if (uiState.selectedColor != null) stringResource(
+                            R.string.color_value,
+                            uiState.selectedColor.name
+                        )
                         else stringResource(id = R.string.color),
                         headerModifier = Modifier.padding(horizontal = 24.dp)
                     ) {
@@ -212,7 +225,10 @@ fun ShoeScreen(
                         }
                     }
                     TitleSection(
-                        title = if (uiState.selectedSize != 0 ) stringResource(R.string.size_value, uiState.selectedSize.toString())
+                        title = if (uiState.selectedSize != 0) stringResource(
+                            R.string.size_value,
+                            uiState.selectedSize.toString()
+                        )
                         else stringResource(id = R.string.size),
                         headerModifier = Modifier.padding(horizontal = 24.dp)
                     ) {
@@ -231,7 +247,10 @@ fun ShoeScreen(
                         }
                     }
                     TitleSection(
-                        title = if (uiState.quantity != 0 ) stringResource(R.string.quantity_value, uiState.quantity.toString())
+                        title = if (uiState.quantity != 0) stringResource(
+                            R.string.quantity_value,
+                            uiState.quantity.toString()
+                        )
                         else stringResource(id = R.string.quantity),
                         headerModifier = Modifier.padding(horizontal = 24.dp)
                     ) {
@@ -240,7 +259,13 @@ fun ShoeScreen(
                             contentPadding = PaddingValues(start = 24.dp)
                         ) {
                             items(uiState.shoe?.quantity ?: 0) { value ->
-                                QuantityItem(num = value.inc(), onClick = { selectedQuantity -> onEvent(ShoeContract.Event.OnSelectShoeQuantity(selectedQuantity))})
+                                QuantityItem(
+                                    num = value.inc(),
+                                    onClick = { selectedQuantity ->
+                                        onEvent(
+                                            ShoeContract.Event.OnSelectShoeQuantity(selectedQuantity)
+                                        )
+                                    })
                             }
                         }
                     }
@@ -291,7 +316,11 @@ fun ShoeScreen(
                             .align(Alignment.TopEnd),
                         onClick = {
                             uiState.shoe.let { shoe ->
-                                if (shoe.isFavorite) onEvent(ShoeContract.Event.MarkShoeAsUnFavorite(shoe.id))
+                                if (shoe.isFavorite) onEvent(
+                                    ShoeContract.Event.MarkShoeAsUnFavorite(
+                                        shoe.id
+                                    )
+                                )
                                 else onEvent(ShoeContract.Event.MarkShoeAsFavorite(shoe.id))
                             }
                         },
@@ -351,7 +380,10 @@ fun ShoeScreen(
                             )
                         }
                     }
-                    Text(text = uiState.shoe.brand.name, style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = uiState.shoe.brand.name,
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -412,7 +444,7 @@ fun ShoeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height((uiState.shoe.reviews.size * 108).dp),
-                        contentPadding = PaddingValues( vertical = 24.dp),
+                        contentPadding = PaddingValues(vertical = 24.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(uiState.shoe.reviews) { review ->
@@ -425,7 +457,6 @@ fun ShoeScreen(
         }
     }
 }
-
 
 
 @Preview

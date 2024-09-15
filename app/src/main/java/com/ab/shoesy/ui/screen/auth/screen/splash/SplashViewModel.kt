@@ -1,4 +1,4 @@
-package com.ab.shoesy.ui.screen.splash
+package com.ab.shoesy.ui.screen.auth.screen.splash
 
 import com.ab.core.base.BaseViewModel
 import com.ab.domain.usecases.auth.IsAuthenticatedUserUseCase
