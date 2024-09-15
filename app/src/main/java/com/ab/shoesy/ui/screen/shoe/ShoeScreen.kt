@@ -24,6 +24,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -32,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -61,6 +64,7 @@ import coil.request.ImageRequest
 import com.ab.core.base.ViewSideEffect
 import com.ab.domain.model.data.getAverageRate
 import com.ab.domain.model.data.getReviewCount
+import com.ab.domain.model.data.getTotalPrice
 import com.ab.shoesy.R
 import com.ab.shoesy.ui.composable.FavoriteButton
 import com.ab.shoesy.ui.composable.LocalNavController
@@ -161,27 +165,83 @@ fun ShoeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(
-                    modifier = Modifier.fillMaxHeight(),
-                    verticalArrangement = Arrangement.SpaceAround
-                ) {
-                    Text(
-                        text = stringResource(R.string.price),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = "$${uiState.shoe?.price}",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-                    )
-                }
-
-                Button(
-                    modifier = Modifier.height(50.dp),
-                    onClick = {
-                        showAddToCartBottomSheet = true
+                if (uiState.cartItem == null) {
+                    Column(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = stringResource(R.string.price),
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "$${uiState.shoe?.price}",
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                        )
                     }
-                ) {
-                    Text(text = stringResource(R.string.add_to_cart))
+
+                    Button(
+                        modifier = Modifier.height(50.dp),
+                        onClick = {
+                            showAddToCartBottomSheet = true
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.add_to_cart))
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = stringResource(R.string.total),
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "$${uiState.cartItem.getTotalPrice()}",
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                        )
+                    }
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                    ) {
+                        if (uiState.cartItem.quantity == 1) {
+                            OutlinedButton(
+                                onClick = {
+                                    onEvent(ShoeContract.Event.DeleteCartItem)
+                                },
+                                shape = RoundedCornerShape(topStart = 50f, bottomStart = 50f)
+                            ) {
+                                Icon(
+                                    Icons.Outlined.Delete,
+                                    contentDescription = null
+                                )
+                            }
+                        } else {
+                            OutlinedButton(
+                                onClick = {
+                                    onEvent(ShoeContract.Event.DecreaseCartItem)
+                                },
+                                shape = RoundedCornerShape(topStart = 50f, bottomStart = 50f)
+                            ) {
+                                Text(text = "-")
+                            }
+                        }
+                        Text(
+                            text = "(${uiState.cartItem.quantity})",
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                        )
+                        OutlinedButton(
+                            onClick = {
+                                onEvent(ShoeContract.Event.IncreaseCartItem)
+                            },
+                            shape = RoundedCornerShape(topEnd = 50f, bottomEnd = 50f)
+                        ) {
+                            Text(text = "+")
+                        }
+                    }
                 }
             }
         }
@@ -265,7 +325,8 @@ fun ShoeScreen(
                                         onEvent(
                                             ShoeContract.Event.OnSelectShoeQuantity(selectedQuantity)
                                         )
-                                    })
+                                    }
+                                )
                             }
                         }
                     }

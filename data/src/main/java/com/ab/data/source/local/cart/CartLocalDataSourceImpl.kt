@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 class CartLocalDataSourceImpl(
     private val cartDao: CartDao
-): CartLocalDataSource {
+) : CartLocalDataSource {
     override suspend fun insert(cartEntity: List<CartEntity>) {
         withContext(Dispatchers.IO) {
             cartDao.insert(cartEntity)
@@ -24,6 +24,10 @@ class CartLocalDataSourceImpl(
     }
 
     override fun listAsFlow(): Flow<List<CartItemWithShoeAndColor>> = cartDao.listAllAsFlow()
+
+    override fun getByShoeIdIfExistOrNullFlow(shoeId: Int): Flow<CartItemWithShoeAndColor?> {
+        return cartDao.getByShoeIdIfExistOrNullFlow(shoeId)
+    }
 
     override suspend fun updateQuantityById(id: Int, quantity: Int) {
         withContext(Dispatchers.IO) {

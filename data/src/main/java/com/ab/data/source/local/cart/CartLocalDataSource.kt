@@ -8,6 +8,7 @@ interface CartLocalDataSource {
     suspend fun insert(cartEntity: List<CartEntity>)
     suspend fun insert(cartEntity: CartEntity)
     fun listAsFlow() : Flow<List<CartItemWithShoeAndColor>>
+    fun getByShoeIdIfExistOrNullFlow(shoeId: Int) : Flow<CartItemWithShoeAndColor?>
     suspend fun updateQuantityById(id: Int, quantity: Int)
     suspend fun deleteById(id: Int)
     fun getCountFlow(): Flow<Int>

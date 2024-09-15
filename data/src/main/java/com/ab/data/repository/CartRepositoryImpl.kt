@@ -1,5 +1,6 @@
 package com.ab.data.repository
 
+import com.ab.data.model.entity.CartItemWithShoeAndColor
 import com.ab.data.model.mappers.toDomain
 import com.ab.data.model.mappers.toEntities
 import com.ab.data.model.mappers.toEntity
@@ -28,6 +29,10 @@ class CartRepositoryImpl(
     override fun listLocalAsFlow(): Flow<List<CartItem>> = cartLocalDataSource
         .listAsFlow()
         .map { cartItems -> cartItems.toDomain() }
+
+    override fun getByShoeIdIfExistOrNullFlow(shoeId: Int): Flow<CartItem?> = cartLocalDataSource
+        .getByShoeIdIfExistOrNullFlow(shoeId)
+        .map { cartItemWithShoeAndColor -> cartItemWithShoeAndColor?.toDomain() }
 
     override suspend fun listFromRemoteAndInsertToLocal(token: String) {
         val cartDtoItems = cartRemoteDataSource.listItems(token)

@@ -24,6 +24,10 @@ interface CartDao {
     @Query("SELECT * FROM $CART_TABLE")
     fun listAllAsFlow(): Flow<List<CartItemWithShoeAndColor>>
 
+    @Transaction
+    @Query("SELECT * FROM $CART_TABLE WHERE shoeId = :shoeId")
+    fun getByShoeIdIfExistOrNullFlow(shoeId: Int): Flow<CartItemWithShoeAndColor?>
+
     @Query("UPDATE $CART_TABLE SET quantity = :quantity  WHERE id = :id")
     suspend fun updateQuantityById(id: Int, quantity: Int)
 

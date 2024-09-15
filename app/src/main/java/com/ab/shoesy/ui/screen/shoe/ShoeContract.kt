@@ -3,6 +3,7 @@ package com.ab.shoesy.ui.screen.shoe
 import com.ab.core.base.ViewEvent
 import com.ab.core.base.ViewSideEffect
 import com.ab.core.base.ViewState
+import com.ab.domain.model.data.CartItem
 import com.ab.domain.model.data.Color
 import com.ab.domain.model.data.Shoe
 import com.ab.shoesy.ui.screen.brand.BrandContract.Event
@@ -16,6 +17,9 @@ class ShoeContract {
         data class SelectShoeColor(val color: Color): Event()
         data class SelectShoeSize(val size: Int): Event()
         data class OnSelectShoeQuantity(val quantity: Int): Event()
+        data object IncreaseCartItem: Event()
+        data object DecreaseCartItem: Event()
+        data object DeleteCartItem: Event()
 
     }
 
@@ -30,6 +34,7 @@ class ShoeContract {
         override val loading: Boolean = false,
         val loadingOrderProcess: Boolean = false,
         val cartItemsCount: Int = 0,
+        val cartItem: CartItem? = null,
         val shoe: Shoe? = null,
         val selectedColor: Color? = null,
         val selectedSize: Int = 0,
