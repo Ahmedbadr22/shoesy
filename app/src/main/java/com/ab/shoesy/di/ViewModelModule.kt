@@ -7,6 +7,7 @@ import com.ab.shoesy.ui.screen.main.screen.home.HomeViewModel
 import com.ab.shoesy.ui.screen.auth.screen.login.LoginViewModel
 import com.ab.shoesy.ui.screen.main.screen.shoe.ShoeViewModel
 import com.ab.shoesy.ui.screen.auth.screen.splash.SplashViewModel
+import com.ab.shoesy.ui.screen.main.screen.profile.ProfileViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -18,4 +19,5 @@ val viewModelModule = module {
     viewModelOf(::ShoeViewModel)
     viewModelOf(::FavoriteViewModel)
     viewModelOf(::CartViewModel)
+    viewModelOf(::ProfileViewModel)
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ab.core.base.BaseViewModel
 import com.ab.core.utils.handle
 import com.ab.domain.repository.BrandRepository
+import com.ab.domain.usecases.auth.GetUserDetailUseCase
 import com.ab.domain.usecases.brand.ListBrandsFromRemoteToLocalUseCase
 import com.ab.domain.usecases.cart.GetCartItemCountUseCase
 import com.ab.domain.usecases.product.GetFavoriteShoeCountUseCase
@@ -22,7 +23,8 @@ class HomeViewModel(
     private val markShoeAsFavoriteByIdUseCase: MarkShoeAsFavoriteByIdUseCase,
     private val brandRepository: BrandRepository,
     private val getFavoriteShoeCountUseCase: GetFavoriteShoeCountUseCase,
-    private val getCartItemCountUseCase: GetCartItemCountUseCase
+    private val getCartItemCountUseCase: GetCartItemCountUseCase,
+    private val getUserDetailUseCase: GetUserDetailUseCase
 ) : BaseViewModel<HomeContract.Event, HomeContract.State>() {
 
 
@@ -48,6 +50,12 @@ class HomeViewModel(
             }
 
             launchCoroutine { handleCartItemsCount() }
+
+            launchCoroutine {
+                getUserDetailUseCase().collectLatest { userDetail ->
+                    setState { copy(userDetail = userDetail) }
+                }
+            }
         }
     }
 

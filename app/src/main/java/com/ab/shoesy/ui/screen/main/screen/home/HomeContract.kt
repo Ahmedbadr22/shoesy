@@ -5,6 +5,7 @@ import com.ab.core.base.ViewSideEffect
 import com.ab.core.base.ViewState
 import com.ab.domain.model.data.Brand
 import com.ab.domain.model.data.Shoe
+import com.ab.domain.model.data.User
 
 class HomeContract {
     sealed class Event: ViewEvent {
@@ -22,5 +23,6 @@ class HomeContract {
         val specialForYouShoes: List<Shoe> = emptyList(),
         val favoriteItemsCount: Int = 0,
         val cartItemsCount: Int = 0,
+        val userDetail: User? = null
     ) : ViewState
 }

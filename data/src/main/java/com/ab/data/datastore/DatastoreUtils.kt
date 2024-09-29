@@ -47,14 +47,14 @@ suspend fun DataStore<Preferences>.setBoolean(key: String, value: Boolean) {
 
 }
 
-suspend fun DataStore<Preferences>.getStringFlow(key: String): String? {
+suspend fun DataStore<Preferences>.getString(key: String): String? {
     val booleanKey = stringPreferencesKey(key)
     val result = data.first()
     return result[booleanKey]
 
 }
 
-fun DataStore<Preferences>.getStringFlow(key: String, defaultValue: String): Flow<String> {
+fun DataStore<Preferences>.getStringFlow(key: String, defaultValue: String): Flow<String?> {
     val stringKey = stringPreferencesKey(key)
     return data.map { preferences: Preferences ->
         preferences[stringKey] ?: defaultValue

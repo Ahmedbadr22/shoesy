@@ -138,5 +138,5 @@ fun NavHostController.navigateToLogin() {
 }
 
 fun NavHostController.navigateToRegistration() {
-    navigate(AuthScreen)
+    navigate(AuthScreen.REGISTRATION)
 }

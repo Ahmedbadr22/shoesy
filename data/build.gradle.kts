@@ -55,6 +55,7 @@ dependencies {
     implementation (libs.logging.interceptor)
     implementation (libs.androidx.datastore.preferences)
     implementation (libs.androidx.datastore.preferences.core)
+    implementation (libs.jwtdecode)
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

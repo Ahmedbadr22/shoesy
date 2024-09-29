@@ -3,7 +3,7 @@ package com.ab.core.constants
 
 object API {
     // Base Url
-    const val BASE_URL = "https://b5fb-197-56-248-18.ngrok-free.app"
+    const val BASE_URL = "https://b4a4-197-56-248-18.ngrok-free.app"
 
     // App
     private const val AUTH_APP = "/auth"

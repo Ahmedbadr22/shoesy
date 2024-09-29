@@ -59,8 +59,8 @@ fun ReviewItem(
                 .build(),
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(50.dp)
-                .weight(1.5f),
+                .size(55.dp)
+                .clip(CircleShape),
             contentDescription = review.reviewer.fullName
         ) {
             when (painter.state) {
@@ -90,6 +90,7 @@ fun ReviewItem(
                 is AsyncImagePainter.State.Loading -> CircularProgressIndicator()
                 else -> Image(
                     painter = painter,
+                    contentScale = ContentScale.Crop,
                     contentDescription = contentDescription,
                 )
             }

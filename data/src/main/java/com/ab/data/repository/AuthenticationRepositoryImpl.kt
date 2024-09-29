@@ -1,15 +1,22 @@
 package com.ab.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.preferencesDataStore
+import com.ab.data.datastore.getString
 import com.ab.data.datastore.getStringFlow
 import com.ab.data.datastore.setString
 import com.ab.data.model.mappers.toDomain
 import com.ab.data.model.mappers.toRequest
 import com.ab.data.source.remote.auth.AuthDataSource
 import com.ab.domain.model.data.Token
+import com.ab.domain.model.data.User
 import com.ab.domain.model.form.LoginForm
 import com.ab.domain.repository.AuthenticationRepository
+import com.auth0.android.jwt.JWT
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 
 class AuthenticationRepositoryImpl(
     private val authRemoteDataSource: AuthDataSource,
@@ -33,6 +40,22 @@ class AuthenticationRepositoryImpl(
     }
 
     override suspend fun getAccessToken(): String {
-        return context.authDataStore.getStringFlow("access_token") ?: ""
+        return context.authDataStore.getString("access_token") ?: ""
+    }
+
+    override suspend fun getUserDetail(): Flow<User?> {
+        return context.authDataStore.getStringFlow("access_token", "").map { token ->
+            if (token != null) {
+                val jwt = JWT(token)
+                User(
+                    email = jwt.getClaim("email").asString().orEmpty(),
+                    fullname = jwt.getClaim("fullname").asString().orEmpty(),
+                    isMale = jwt.getClaim("is_male").asBoolean() ?: false,
+                    profileImageUrl = jwt.getClaim("profile_image").asString().orEmpty()
+                )
+            } else {
+                null
+            }
+        }
     }
 }

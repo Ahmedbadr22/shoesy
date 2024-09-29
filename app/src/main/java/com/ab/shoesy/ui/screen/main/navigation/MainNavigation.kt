@@ -30,7 +30,9 @@ import com.ab.shoesy.ui.screen.main.screen.favorite.FavoriteViewModel
 import com.ab.shoesy.ui.screen.main.screen.home.HomeContract
 import com.ab.shoesy.ui.screen.main.screen.home.HomeScreen
 import com.ab.shoesy.ui.screen.main.screen.home.HomeViewModel
+import com.ab.shoesy.ui.screen.main.screen.profile.ProfileContract
 import com.ab.shoesy.ui.screen.main.screen.profile.ProfileScreen
+import com.ab.shoesy.ui.screen.main.screen.profile.ProfileViewModel
 import com.ab.shoesy.ui.screen.main.screen.shoe.ShoeContract
 import com.ab.shoesy.ui.screen.main.screen.shoe.ShoeScreen
 import com.ab.shoesy.ui.screen.main.screen.shoe.ShoeViewModel
@@ -83,7 +85,13 @@ fun MainNavHost(
 
         animatedComposable<Screen.Profile> {
 
-            ProfileScreen()
+            val profileViewModel: ProfileViewModel = koinViewModel()
+
+            val uiState: ProfileContract.State by profileViewModel.viewState.collectAsStateWithLifecycle()
+
+            ProfileScreen(
+                uiState = uiState
+            )
         }
 
         animatedComposable<Screen.Brand> { backstackEntry ->

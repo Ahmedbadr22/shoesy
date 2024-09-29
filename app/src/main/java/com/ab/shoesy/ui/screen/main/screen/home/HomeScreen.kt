@@ -45,7 +45,8 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             HomeTopBar(
-                fullname = "Ahmed Badr",
+                fullname = uiState.userDetail?.fullname.orEmpty(),
+                imageUrl = uiState.userDetail?.profileImageUrl.orEmpty(),
                 actions = {
                     BadgeButton(
                         iconPainter = painterResource(id = R.drawable.favorite),

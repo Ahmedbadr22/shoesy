@@ -1,6 +1,7 @@
 package com.ab.shoesy.di
 
 import com.ab.domain.usecases.auth.GetAccessTokenUseCase
+import com.ab.domain.usecases.auth.GetUserDetailUseCase
 import com.ab.domain.usecases.auth.IsAuthenticatedUserUseCase
 import com.ab.domain.usecases.auth.LoginUseCase
 import com.ab.domain.usecases.brand.ListBrandsFromRemoteToLocalUseCase
@@ -44,4 +45,5 @@ val useCaseModule = module {
     singleOf(::GetCartItemCountUseCase)
     singleOf(::AddCartItemUseCase)
     singleOf(::GetCartItemByShoeIdIfExistOrNullFlowUseCase)
+    singleOf(::GetUserDetailUseCase)
 }
