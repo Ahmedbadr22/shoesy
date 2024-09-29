@@ -11,6 +11,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
+import androidx.navigation.toRoute
+import com.ab.shoesy.ui.composable.ErrorDialog
 import com.ab.shoesy.ui.screen.main.navigation.navigateToErrorDialog
 
 import com.ab.shoesy.ui.screen.main.navigation.popUpToLogin
@@ -20,6 +23,7 @@ import com.ab.shoesy.ui.screen.auth.screen.login.LoginScreen
 import com.ab.shoesy.ui.screen.auth.screen.login.LoginViewModel
 import com.ab.shoesy.ui.screen.auth.screen.splash.SplashScreen
 import com.ab.shoesy.ui.screen.auth.screen.splash.SplashViewModel
+import com.ab.shoesy.ui.screen.main.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -112,6 +116,15 @@ fun AuthNavHost(
             CreateAccountScreen(
                 popBackToLogin = navHostController::popUpToLogin
             )
+        }
+
+        dialog<Screen.ErrorDialog> { backstackEntry ->
+            val dialog: Screen.ErrorDialog = backstackEntry.toRoute()
+            ErrorDialog(
+                message = dialog.message
+            ) {
+                navHostController.navigateUp()
+            }
         }
     }
 }
